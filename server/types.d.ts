@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import "socket.io";
-import { AccessTokenPayload } from "./src/utils/jwtUtils";
+import { AccessTokenPayload } from "./src/modules/auth/utils/jwtUtils";
 
 declare global {
   namespace Express {
