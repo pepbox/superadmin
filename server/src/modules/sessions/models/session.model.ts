@@ -25,9 +25,23 @@ const sessionSchema: Schema<ISession> = new Schema<ISession>(
       type: String,
       required: true,
     },
+    adminName: {
+      type: String,
+    },
     adminPin: {
       type: String,
       required: true,
+    },
+    totalPlayers: {
+      type: Number,
+      default: 0,
+    },
+    totalTeams: {
+      type: Number,
+      default: 0,
+    },
+    completedOn: {
+      type: Date,
     },
   },
   {

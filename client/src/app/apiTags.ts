@@ -1,5 +1,6 @@
 export const API_TAGS = {
   AUTH: "Auth",
+  SESSIONS: "Sessions",
 } as const;
 
 export const tagTypes = Object.values(API_TAGS);

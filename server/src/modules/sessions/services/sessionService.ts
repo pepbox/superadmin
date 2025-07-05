@@ -10,12 +10,14 @@ export class SessionService {
     playerLink,
     adminLink,
     adminPin,
+    adminName,
   }: {
     name: string;
     game: string;
     playerLink: string;
     adminLink: string;
     adminPin: string;
+    adminName?: string;
   }) {
     const newSession = new this.SessionModel({
       name,
@@ -23,6 +25,7 @@ export class SessionService {
       playerLink,
       adminLink,
       adminPin,
+      adminName,
     });
     return await newSession.save();
   }
@@ -30,11 +33,13 @@ export class SessionService {
   async getLiveSessions() {
     return await this.SessionModel.find({ status: SessionStatus.LIVE })
       .populate("game", "name gameId")
+      .sort({ createdAt: -1 })
       .exec();
   }
   async getEndedSessions() {
     return await this.SessionModel.find({ status: SessionStatus.ENDED })
       .populate("game", "name gameId")
+      .sort({ createdAt: -1 })
       .exec();
   }
 }

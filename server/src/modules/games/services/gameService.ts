@@ -29,15 +29,23 @@ export class GameService {
     gameId,
     name,
     serverUrl,
+    endpoints,
   }: {
     gameId: string;
     name: string;
     serverUrl: string;
+    endpoints: {
+      createSession?: string;
+      getSession?: string;
+      updateSession?: string;
+      deleteSession?: string;
+    };
   }) {
     const newGame = new this.GameModel({
       gameId,
       name,
       serverUrl,
+      endpoints,
     });
     return await newGame.save();
   }

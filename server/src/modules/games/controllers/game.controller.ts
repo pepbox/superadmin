@@ -28,7 +28,7 @@ class GameController {
   };
 
   createGame = async (req: Request, res: Response, next: NextFunction) => {
-    const { gameId, name, serverUrl } = req.body;
+    const { gameId, name, serverUrl, endpoints } = req.body;
 
     if (!gameId || !name || !serverUrl) {
       return next(new AppError("All fields are required", 400));
@@ -38,6 +38,7 @@ class GameController {
         gameId,
         name,
         serverUrl,
+        endpoints
       });
       res.status(201).json({
         status: "success",

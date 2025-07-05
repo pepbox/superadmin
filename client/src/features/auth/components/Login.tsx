@@ -12,7 +12,7 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const { data, isLoading } = useFetchUserQuery(undefined);
+  const { data, isLoading, isError } = useFetchUserQuery(undefined);
   const [login, { isLoading: loginLoading, error: loginError }] =
     useLoginMutation();
 
@@ -27,7 +27,7 @@ const Login = () => {
   if (isLoading) {
     return <Loader />;
   }
-  if (data && data.admin) {
+  if (data && data.admin && !isError) {
     return <Navigate to="/dashboard" />;
   }
   return (
