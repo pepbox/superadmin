@@ -1,4 +1,5 @@
 export interface SessionData {
+  _id?: string;
   playerGameLink: string;
   adminGameLink: string;
   sessionName: string;

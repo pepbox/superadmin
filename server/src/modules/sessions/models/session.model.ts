@@ -12,6 +12,10 @@ const sessionSchema: Schema<ISession> = new Schema<ISession>(
       ref: "Game",
       required: true,
     },
+    gameSessionId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
     status: {
       type: String,
       enum: SessionStatus,

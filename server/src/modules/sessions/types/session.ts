@@ -8,6 +8,7 @@ export enum SessionStatus {
 export interface ISession {
   name: string;
   game: mongoose.Types.ObjectId;
+  gameSessionId:mongoose.Types.ObjectId;
   status: SessionStatus;
   adminName?: string;
   playerLink: string;

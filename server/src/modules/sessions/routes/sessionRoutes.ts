@@ -6,6 +6,7 @@ const router = Router();
 
 router.post("/create", authenticateUser, SessionControllers.createSession);
 router.get("/", authenticateUser, SessionControllers.getSessions);
+router.post("/edit", authenticateUser, SessionControllers.editSession);
 
 router.post(
   "/custom-game-request",

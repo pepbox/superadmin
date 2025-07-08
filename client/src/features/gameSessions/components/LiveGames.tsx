@@ -3,6 +3,8 @@ import Loader from "../../../components/ui/Loader";
 import { useGetSessionsQuery } from "../gameSessionApi";
 import { SessionData } from "../types/sessionTypes";
 import { filterBySearch } from "../../../utility/searchUtils";
+import { Edit2 } from "lucide-react";
+import EditSessionPopup from "./EditSessionPopup";
 
 interface LiveGamesProps {
   searchQuery?: string;
@@ -13,6 +15,9 @@ const LiveGames: React.FC<LiveGamesProps> = ({
   handleShowSessionInfo,
 }) => {
   const { data: liveGames, isLoading } = useGetSessionsQuery("live");
+
+  const [editSessionModalOpen, setEditSessionModalOpen] = useState(false);
+  const [sessionData, setSessionData] = useState<SessionData | null>(null);
   const [copyLink, setCopyLink] = useState<number | null>(null);
 
   const handleCopyLink = (link: string, index: number) => {
@@ -25,6 +30,11 @@ const LiveGames: React.FC<LiveGamesProps> = ({
       .catch((err) => {
         console.error("Failed to copy link:", err);
       });
+  };
+
+  const handleEditSession = (game: SessionData) => {
+    setEditSessionModalOpen(true);
+    setSessionData(game);
   };
 
   const filteredGames = filterBySearch(liveGames || [], searchQuery);
@@ -44,12 +54,12 @@ const LiveGames: React.FC<LiveGamesProps> = ({
                 <div className="flex items-center gap-1">
                   <h1 className="font-bold">{game.sessionName}</h1>
 
-                  {/* <div
-                  onClick={() => setEditSessionModalOpen(true)}
-                  className="flex items-center justify-center  hover:bg-gray-200 rounded-full mt-1 cursor-pointer p-2 "
-                >
-                  <Edit2 size={12} className="" />
-                </div> */}
+                  <div
+                    onClick={() => handleEditSession(game)}
+                    className="flex items-center justify-center  hover:bg-gray-200 rounded-full mt-1 cursor-pointer p-2 "
+                  >
+                    <Edit2 size={12} className="" />
+                  </div>
                 </div>
                 <div className="w-[8px] h-[8px] rounded-full bg-[#81DE48]"></div>
               </div>
@@ -96,6 +106,11 @@ const LiveGames: React.FC<LiveGamesProps> = ({
             </div>
           ))}
       </div>
+      <EditSessionPopup
+        isOpen={editSessionModalOpen}
+        sessionData={sessionData}
+        onClose={() => setEditSessionModalOpen(false)}
+      />
     </div>
   );
 };

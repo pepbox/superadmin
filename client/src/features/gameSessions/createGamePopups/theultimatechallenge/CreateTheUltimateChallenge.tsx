@@ -38,12 +38,13 @@ const initialFormData: FormData = {
 
 const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
   onClose,
+  isSubmitting,
   // handleShowSessionInfo,
   handleCreateSession,
 }) => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [questionsModalOpen, setQuestionsModalOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [isSubmitting, setIsSubmitting] = useState(false);
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [customGameRequest] = useCustomGameRequestMutation();
 
@@ -184,7 +185,7 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    // setIsSubmitting(true);
 
     // Prepare the session data according to CreateGameSessionRequest interface
     const sessionData: CreateGameSessionRequest = {
@@ -230,7 +231,7 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
       console.error("Error creating session:", error);
       alert(error?.message || "Failed to create session. Please try again.");
     } finally {
-      setIsSubmitting(false);
+      // setIsSubmitting(false);
     }
   };
 

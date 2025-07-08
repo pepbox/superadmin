@@ -12,6 +12,7 @@ interface CreateSessionPopupProps {
 
 export interface GameCreationComponentProps {
   onClose: () => void;
+  isSubmitting: boolean;
   handleCreateSession: (
     sessionData: CreateGameSessionRequest
   ) => Promise<{ data: SessionData }>;
@@ -23,7 +24,7 @@ const CreateSessionPopup: React.FC<CreateSessionPopupProps> = ({
   onClose,
   handleShowSessionInfo,
 }) => {
-  const [createSession] = useCreateSessionMutation();
+  const [createSession, { isLoading }] = useCreateSessionMutation();
 
   const GameCreationComponent = games.find(
     (game) => game.id === activeGame
@@ -35,13 +36,15 @@ const CreateSessionPopup: React.FC<CreateSessionPopupProps> = ({
     try {
       const response = await createSession(sessionData).unwrap();
       const sessionResponse = response.data;
-      
+
       const sessionInfo: SessionData = {
         sessionName: sessionResponse.name,
         adminName: sessionResponse.adminName,
         adminPassword: sessionResponse.adminPin,
         playerGameLink: sessionResponse.playerLink,
         adminGameLink: sessionResponse.adminLink,
+        totalPlayers: sessionResponse.totalPlayers || 0,
+        totalTeams: sessionResponse.totalTeams || 0,
       };
       handleShowSessionInfo(sessionInfo);
       return response;
@@ -63,6 +66,7 @@ const CreateSessionPopup: React.FC<CreateSessionPopupProps> = ({
         </button>
         <GameCreationComponent
           onClose={onClose}
+          isSubmitting={isLoading}
           handleCreateSession={handleCreateSession}
           handleShowSessionInfo={handleShowSessionInfo}
         />

@@ -1,5 +1,5 @@
 import { Session } from "../models/session.model";
-import { SessionStatus } from "../types/session";
+import { ISession, SessionStatus } from "../types/session";
 
 export class SessionService {
   private SessionModel = Session;
@@ -11,6 +11,7 @@ export class SessionService {
     adminLink,
     adminPin,
     adminName,
+    gameSessionId,
   }: {
     name: string;
     game: string;
@@ -18,6 +19,7 @@ export class SessionService {
     adminLink: string;
     adminPin: string;
     adminName?: string;
+    gameSessionId: string;
   }) {
     const newSession = new this.SessionModel({
       name,
@@ -25,9 +27,17 @@ export class SessionService {
       playerLink,
       adminLink,
       adminPin,
+      gameSessionId,
       adminName,
     });
     return await newSession.save();
+  }
+
+  async updateSession(sessionId: string, updateData: Partial<ISession>) {
+    return await this.SessionModel.findByIdAndUpdate(sessionId, updateData, {
+      new: true,
+      runValidators: true,
+    }).exec();
   }
 
   async getLiveSessions() {
@@ -41,5 +51,9 @@ export class SessionService {
       .populate("game", "name gameId")
       .sort({ createdAt: -1 })
       .exec();
+  }
+
+  async getSessionById(sessionId: string) {
+    return await this.SessionModel.findById(sessionId).populate("game").exec();
   }
 }

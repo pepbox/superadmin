@@ -11,6 +11,19 @@ export const gameSesssionApi = api.injectEndpoints({
         body: sessionData,
       }),
     }),
+    editSession: build.mutation({
+      query: (sessionData: {
+        sessionId: string;
+        sessionName: string;
+        adminName: string;
+        adminPin: string;
+      }) => ({
+        url: `/sessions/edit`,
+        method: "POST",
+        body: sessionData,
+      }),
+      invalidatesTags: [API_TAGS.SESSIONS],
+    }),
     customGameRequest: build.mutation({
       query: (requestData: {
         gameId: string;
@@ -35,11 +48,12 @@ export const gameSesssionApi = api.injectEndpoints({
           sessionName: session.name,
           adminName: session.adminName || "Unknown",
           totalPlayers: session.totalPlayers || 0,
+          adminPassword: session.adminPin || "",
           totalTeams: session.totalTeams || 0,
           adminGameLink: session.adminLink,
           playerGameLink: session.playerLink,
         })),
-      providesTags: [API_TAGS.SESSIONS]
+      providesTags: [API_TAGS.SESSIONS],
     }),
   }),
 });
@@ -48,4 +62,5 @@ export const {
   useCreateSessionMutation,
   useCustomGameRequestMutation,
   useGetSessionsQuery,
+  useEditSessionMutation,
 } = gameSesssionApi;

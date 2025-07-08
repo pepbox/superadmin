@@ -3,6 +3,7 @@ import AppError from "../../../utils/appError";
 import { SessionService } from "../services/sessionService";
 import { GameService } from "../../games/services/gameService";
 import axios from "axios";
+import { IGame } from "../../games/types/game";
 
 class SessionController {
   private sessionService: SessionService;
@@ -25,7 +26,7 @@ class SessionController {
       if (!game) {
         return next(new AppError("Game not found", 404));
       }
-      const createSessionEndpoint = `${game.serverUrl}/${game.endpoints.createSession}`;
+
       const data = {
         name,
         gameId,
@@ -33,19 +34,24 @@ class SessionController {
         adminPin,
         gameConfig,
       };
-      const { adminLink, playerLink } = await this.createRemoteSession(
-        createSessionEndpoint,
+
+      const remoteResponse = await this.makeRemoteGameRequest(
+        game,
+        game.endpoints.createSession,
+        "POST",
         data
       );
 
-      console.log("Admin Link:", adminLink);
-      console.log("Player Link:", playerLink);
+      console.log("Admin Link:", remoteResponse.adminLink);
+      console.log("Player Link:", remoteResponse.playerLink);
+      console.log("Session ID:", remoteResponse.sessionId);
 
       const newSession = await this.sessionService.createSession({
         name,
         game: game._id,
-        adminLink,
-        playerLink,
+        adminLink: remoteResponse.adminLink,
+        playerLink: remoteResponse.playerLink,
+        gameSessionId: remoteResponse.sessionId, // Assuming this is returned from the remote server
         adminPin,
         adminName,
       });
@@ -57,6 +63,64 @@ class SessionController {
     } catch (error) {
       console.error("Error creating session:", error);
       next(error);
+    }
+  };
+  editSession = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { sessionId, sessionName, adminName, adminPin } = req.body;
+      if (!sessionId || !sessionName || !adminName || !adminPin) {
+        return next(new AppError("All fields are required", 400));
+      }
+
+      // Get the session to find the associated game
+      const existingSession = await this.sessionService.getSessionById(
+        sessionId
+      );
+      if (!existingSession) {
+        return next(new AppError("Session not found", 404));
+      }
+
+      // Get the game details
+      const game = existingSession.game as any as IGame;
+
+      if (!game || !game.gameId) {
+        return next(new AppError("Associated game not found", 404));
+      }
+
+      if (game.endpoints.updateSession) {
+        const updateData = {
+          sessionId: existingSession.gameSessionId,
+          name: sessionName,
+          adminName,
+          adminPin,
+        };
+
+        await this.makeRemoteGameRequest(
+          game,
+          game.endpoints.updateSession,
+          "POST",
+          updateData
+        );
+      }
+
+      // Update session in local database
+      const updatedSession = await this.sessionService.updateSession(
+        sessionId,
+        {
+          name: sessionName,
+          adminName,
+          adminPin,
+        }
+      );
+
+      res.status(200).json({
+        status: "success",
+        message: "Session updated successfully",
+        data: updatedSession,
+      });
+    } catch (error) {
+      console.error("Error editing session:", error);
+      next(new AppError("Failed to edit session", 500));
     }
   };
 
@@ -98,47 +162,26 @@ class SessionController {
       if (!game) {
         return next(new AppError("Game not found", 404));
       }
-      await this.handleCustomGameRequest(
-        req,
-        res,
-        next,
+
+      const response = await this.makeRemoteGameRequest(
         game,
         endpoint,
         method,
         data
       );
-      // If the request is successful, the response will be sent in handleCustomGameRequest
+
+      res.status(200).json({
+        status: "success",
+        message: "Custom game request processed successfully",
+        data: response,
+      });
     } catch (error) {
       console.error("Error processing custom game request:", error);
       return next(new AppError("Failed to process custom game request", 500));
     }
   };
 
-  private createRemoteSession = async (
-    createSessionEndpoint: string,
-    data: any
-  ) => {
-    const response = await axios.post(createSessionEndpoint, data);
-    if (response.status !== 201) {
-      throw new AppError("Failed to create remote session", response.status);
-    }
-
-    console.log("Remote session created successfully:", response.data);
-
-    if (!response.data.data.adminLink || !response.data.data.playerLink) {
-      throw new AppError("Invalid response from remote session creation", 500);
-    }
-
-    return {
-      adminLink: response.data.data.adminLink,
-      playerLink: response.data.data.playerLink,
-    };
-  };
-
-  private handleCustomGameRequest = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
+  private makeRemoteGameRequest = async (
     game: any,
     endpoint: string,
     method: string,
@@ -151,14 +194,34 @@ class SessionController {
         url: url,
         data: data,
       });
-      res.status(response.status).json({
-        status: "success",
-        message: "Custom game request processed successfully",
-        data: response.data,
-      });
+
+      if (endpoint === game.endpoints.createSession) {
+        if (!response.data.data.adminLink || !response.data.data.playerLink) {
+          throw new AppError(
+            "Invalid response from remote session creation",
+            500
+          );
+        }
+        return {
+          sessionId: response.data.data.sessionId,
+          adminLink: response.data.data.adminLink,
+          playerLink: response.data.data.playerLink,
+        };
+      }
+
+      // For other requests, return the response data
+      return response.data;
     } catch (error) {
-      console.error("Error processing custom game request:", error);
-      next(new AppError("Failed to process custom game request", 500));
+      console.error("Error making remote game request:", error);
+      if (axios.isAxiosError(error)) {
+        throw new AppError(
+          `Remote server error: ${
+            error.response?.data?.message || error.message
+          }`,
+          error.response?.status || 500
+        );
+      }
+      throw new AppError("Failed to communicate with remote game server", 500);
     }
   };
 }
