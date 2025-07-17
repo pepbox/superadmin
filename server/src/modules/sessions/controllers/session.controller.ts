@@ -42,10 +42,6 @@ class SessionController {
         data
       );
 
-      console.log("Admin Link:", remoteResponse.adminLink);
-      console.log("Player Link:", remoteResponse.playerLink);
-      console.log("Session ID:", remoteResponse.sessionId);
-
       const newSession = await this.sessionService.createSession({
         name,
         game: game._id,
@@ -65,6 +61,8 @@ class SessionController {
       next(error);
     }
   };
+
+  // controller for editing session at local and then at remote game server 
   editSession = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { sessionId, sessionName, adminName, adminPin } = req.body;
@@ -215,8 +213,7 @@ class SessionController {
       console.error("Error making remote game request:", error);
       if (axios.isAxiosError(error)) {
         throw new AppError(
-          `Remote server error: ${
-            error.response?.data?.message || error.message
+          `Remote server error: ${error.response?.data?.message || error.message
           }`,
           error.response?.status || 500
         );
@@ -224,6 +221,57 @@ class SessionController {
       throw new AppError("Failed to communicate with remote game server", 500);
     }
   };
+
+  // this controller is for updating a session from another game.
+  updateSession = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { gameSessionId, totalPlayers, totalTeams, completedOn, status } = req.body;
+      if (!gameSessionId) {
+        return next(new AppError("gameSessionId is required", 400));
+      }
+
+      // Get the session to find the associated game
+      const existingSession = await this.sessionService.getSessionByGameSessionId(
+        gameSessionId
+      );
+      if (!existingSession) {
+        return next(new AppError("Session not found", 404));
+      }
+
+      // Get the game details
+      const game = existingSession.game as any as IGame;
+
+      if (!game || !game.gameId) {
+        return next(new AppError("Associated game not found", 404));
+      }
+
+      // Prepare update object with only provided fields
+      const updateData: any = {}
+      if (typeof totalPlayers !== "undefined") updateData.totalPlayers = totalPlayers;
+      if (typeof totalTeams !== "undefined") updateData.totalTeams = totalTeams;
+      if (typeof completedOn !== "undefined") updateData.completedOn = completedOn;
+      if (typeof status !== "undefined") updateData.status = status;
+
+      // Update session in local database
+      const updatedSession = await this.sessionService.updateSessionByGameSessionId(
+        gameSessionId,
+        updateData
+      );
+
+      res.status(200).json({
+        status: "success",
+        message: "Session updated successfully",
+        data: updatedSession,
+      });
+    } catch (error) {
+      console.error("Error editing session:", error);
+      next(new AppError("Failed to edit session", 500));
+    }
+  };
+
+
 }
+
+
 
 export const SessionControllers = new SessionController();

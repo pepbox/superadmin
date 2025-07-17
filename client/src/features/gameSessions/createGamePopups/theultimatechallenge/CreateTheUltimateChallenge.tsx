@@ -20,7 +20,6 @@ interface FormData {
   numberOfTeams: number;
   numberOfLevels: number;
   questionsPerLevel: number;
-  isCustomQuestionSelection: boolean;
   selectedQuestions: Record<number, Question[]>;
 }
 
@@ -32,7 +31,6 @@ const initialFormData: FormData = {
   numberOfTeams: 100,
   numberOfLevels: 2,
   questionsPerLevel: 13,
-  isCustomQuestionSelection: true,
   selectedQuestions: {} as Record<number, Question[]>,
 };
 
@@ -82,15 +80,10 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
   }, []);
 
   useEffect(() => {
-    if (formData.isCustomQuestionSelection && allQuestions.length > 0) {
+    if (allQuestions.length > 0) {
       setDefaultQuestions(allQuestions);
     }
-  }, [
-    formData.isCustomQuestionSelection,
-    formData.numberOfLevels,
-    formData.questionsPerLevel,
-    allQuestions,
-  ]);
+  }, [formData.numberOfLevels, formData.questionsPerLevel, allQuestions]);
 
   const setDefaultQuestions = (questions: Question[]) => {
     const newSelections: Record<number, Question[]> = {};
@@ -128,31 +121,10 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
       }));
     }
 
-    setFormData((prev) => {
-      const newFormData = {
-        ...prev,
-        [name]: type === "checkbox" ? checked : value,
-      };
-
-      if (name === "isCustomQuestionSelection") {
-        if (checked) {
-          if (allQuestions.length > 0) {
-            setDefaultQuestions(allQuestions);
-          }
-          if (questionsModalOpen) {
-            setQuestionsModalOpen(false);
-          }
-        } else {
-          const clearedSelections: Record<number, Question[]> = {};
-          for (let level = 1; level <= prev.numberOfLevels; level++) {
-            clearedSelections[level] = [];
-          }
-          newFormData.selectedQuestions = clearedSelections;
-        }
-      }
-
-      return newFormData;
-    });
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleNumberChange = (
@@ -174,7 +146,7 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
         }
         newFormData.selectedQuestions = newSelections;
       } else if (name === "questionsPerLevel") {
-        if (newFormData.isCustomQuestionSelection && allQuestions.length > 0) {
+        if (allQuestions.length > 0) {
           setDefaultQuestions(allQuestions);
         }
       }
@@ -198,7 +170,6 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
         numberOfTeams: formData.numberOfTeams,
         numberOfLevels: formData.numberOfLevels,
         questionsPerLevel: formData.questionsPerLevel,
-        isCustomQuestionSelection: formData.isCustomQuestionSelection,
         selectedQuestions: Object.fromEntries(
           Object.entries(formData.selectedQuestions).map(
             ([level, questions]) => [
@@ -261,7 +232,6 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
               onQuestionsSelected={handleQuestionsSelected}
               maxQuestionsPerLevel={formData.questionsPerLevel}
               numberOfLevels={formData.numberOfLevels}
-              isCustomSelectionAllowed={!formData.isCustomQuestionSelection}
               allQuestions={allQuestions}
             />
           ) : (
@@ -407,21 +377,11 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                         Questions
                       </label>
                       <div className="flex items-center justify-between border border-gray-300 rounded-lg px-3 py-2">
-                        <div className="flex items-center">
-                          <input
-                            type="checkbox"
-                            name="isCustomQuestionSelection"
-                            checked={formData.isCustomQuestionSelection}
-                            onChange={handleChange}
-                            className="w-4 h-4 text-blue-600 rounded"
-                          />
-                          <span className="ml-2">
-                            {`${totalSelectedQuestions} / ${
-                              formData.questionsPerLevel *
-                              formData.numberOfLevels
-                            } Questions Selected`}
-                          </span>
-                        </div>
+                        <span>
+                          {`${totalSelectedQuestions} / ${
+                            formData.questionsPerLevel * formData.numberOfLevels
+                          } Questions Selected`}
+                        </span>
                         <button
                           type="button"
                           onClick={() => setQuestionsModalOpen(true)}

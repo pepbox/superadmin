@@ -1,52 +1,46 @@
-import { useState, useEffect, useMemo } from 'react';
-import { Close } from '@mui/icons-material';
-import { Checkbox } from '@mui/material';
+import { useState, useEffect, useMemo } from "react";
+import { Close } from "@mui/icons-material";
+import { Checkbox } from "@mui/material";
 
-const QuestionsSelector = ({ 
-  onClose, 
-  selectedQuestions, 
-  onQuestionsSelected, 
-  maxQuestionsPerLevel, 
-  numberOfLevels, 
-  isCustomSelectionAllowed, 
-  allQuestions 
+const QuestionsSelector = ({
+  onClose,
+  selectedQuestions,
+  onQuestionsSelected,
+  maxQuestionsPerLevel,
+  numberOfLevels,
+  allQuestions,
 }: {
   onClose: () => void;
   selectedQuestions: Record<number, any[]>;
   onQuestionsSelected: (level: number, questions: any[]) => void;
   maxQuestionsPerLevel: number;
   numberOfLevels: number;
-  isCustomSelectionAllowed: boolean;
   allQuestions: any[];
 }) => {
   const [activeTab, setActiveTab] = useState(1);
   const [selections, setSelections] = useState(selectedQuestions);
 
   useEffect(() => {
-    if (!isCustomSelectionAllowed && allQuestions.length > 0) {
-      const newSelections: Record<number, any[]> = {};
-      for (let level = 1; level <= numberOfLevels; level++) {
-        newSelections[level] = allQuestions
-          .filter((q: any) => q.level === level)
-          .slice(0, maxQuestionsPerLevel);
-      }
-      setSelections(newSelections);
-    } else {
-      setSelections(selectedQuestions);
+    // Set default questions for all levels
+    const newSelections: Record<number, any[]> = {};
+    for (let level = 1; level <= numberOfLevels; level++) {
+      const levelQuestions = allQuestions
+        .filter((q: any) => q.level === level)
+        .slice(0, maxQuestionsPerLevel);
+      newSelections[level] = levelQuestions;
     }
-  }, [allQuestions, maxQuestionsPerLevel, numberOfLevels, isCustomSelectionAllowed]);
+    setSelections(newSelections);
+  }, [allQuestions, maxQuestionsPerLevel, numberOfLevels]);
 
   const handleTabChange = (tabNumber: number) => {
     setActiveTab(tabNumber);
   };
 
   const handleCheckboxChange = (question: any) => {
-    if (!isCustomSelectionAllowed) {
-      return; // Prevent changes in automatic selection mode
-    }
-
     const currentLevelSelections = [...(selections[activeTab] || [])];
-    const questionIndex = currentLevelSelections.findIndex((q) => q._id === question._id);
+    const questionIndex = currentLevelSelections.findIndex(
+      (q) => q._id === question._id
+    );
 
     if (questionIndex >= 0) {
       currentLevelSelections.splice(questionIndex, 1);
@@ -67,13 +61,33 @@ const QuestionsSelector = ({
     return (selections[activeTab] || []).some((q: any) => q._id === questionId);
   };
 
-  const isQuestionEnabled = (questionId: string) => {
-    return isCustomSelectionAllowed || isQuestionSelected(questionId);
-  };
-
   const filteredQuestions = useMemo(() => {
     return allQuestions.filter((q: any) => q.level === activeTab);
   }, [allQuestions, activeTab]);
+
+  const handleDone = () => {
+    // Check if all levels have the required number of questions
+    const incompleteLevel = Array.from(
+      { length: numberOfLevels },
+      (_, i) => i + 1
+    ).find(
+      (level) => (selections[level] || []).length !== maxQuestionsPerLevel
+    );
+
+    if (incompleteLevel) {
+      alert(
+        `Please select exactly ${maxQuestionsPerLevel} questions for Level ${incompleteLevel}`
+      );
+      return;
+    }
+
+    // Update all selections at once
+    Object.entries(selections).forEach(([level, questions]) => {
+      onQuestionsSelected(parseInt(level), questions);
+    });
+
+    onClose();
+  };
 
   return (
     <div>
@@ -89,20 +103,23 @@ const QuestionsSelector = ({
 
       <div className="mb-4 border-b border-gray-200">
         <ul className="flex flex-wrap -mb-px text-sm font-medium text-center">
-          {Array.from({ length: numberOfLevels }, (_, i) => i + 1).map((level) => (
-            <li key={level} className="mr-2">
-              <button
-                onClick={() => handleTabChange(level)}
-                className={`inline-block p-4 ${
-                  activeTab === level
-                    ? 'text-blue-600 border-b-2 border-blue-600'
-                    : 'border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300'
-                }`}
-              >
-                Level {level} ({(selections[level] || []).length}/{maxQuestionsPerLevel})
-              </button>
-            </li>
-          ))}
+          {Array.from({ length: numberOfLevels }, (_, i) => i + 1).map(
+            (level) => (
+              <li key={level} className="mr-2">
+                <button
+                  onClick={() => handleTabChange(level)}
+                  className={`inline-block p-4 ${
+                    activeTab === level
+                      ? "text-blue-600 border-b-2 border-blue-600"
+                      : "border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
+                  }`}
+                >
+                  Level {level} ({(selections[level] || []).length}/
+                  {maxQuestionsPerLevel})
+                </button>
+              </li>
+            )
+          )}
         </ul>
       </div>
 
@@ -115,19 +132,34 @@ const QuestionsSelector = ({
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th scope="col" className="w-10 py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="w-10 py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Select
                 </th>
-                <th scope="col" className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Question
                 </th>
-                <th scope="col" className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Category
                 </th>
-                <th scope="col" className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Difficulty
                 </th>
-                <th scope="col" className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Points
                 </th>
               </tr>
@@ -139,19 +171,22 @@ const QuestionsSelector = ({
                     <Checkbox
                       checked={isQuestionSelected(question._id)}
                       onChange={() => handleCheckboxChange(question)}
-                      disabled={!isQuestionEnabled(question._id)}
-                      sx={{
-                        color: !isQuestionEnabled(question._id) ? 'grey' : 'default',
-                        cursor: !isQuestionEnabled(question._id) ? 'not-allowed' : 'pointer',
-                      }}
                     />
                   </td>
                   <td className="py-4 px-4 text-sm text-gray-900">
-                    {question.text.length > 80 ? question.text.substring(0, 80) + '...' : question.text}
+                    {question.text.length > 80
+                      ? question.text.substring(0, 80) + "..."
+                      : question.text}
                   </td>
-                  <td className="py-4 px-4 text-sm text-gray-500">{question.category}</td>
-                  <td className="py-4 px-4 text-sm text-gray-500">{question.difficulty}</td>
-                  <td className="py-4 px-4 text-sm text-gray-500">{question.points}</td>
+                  <td className="py-4 px-4 text-sm text-gray-500">
+                    {question.category}
+                  </td>
+                  <td className="py-4 px-4 text-sm text-gray-500">
+                    {question.difficulty}
+                  </td>
+                  <td className="py-4 px-4 text-sm text-gray-500">
+                    {question.points}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -161,7 +196,7 @@ const QuestionsSelector = ({
 
       <div className="flex justify-end mt-6">
         <button
-          onClick={onClose}
+          onClick={handleDone}
           className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800"
         >
           Done

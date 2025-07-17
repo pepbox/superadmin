@@ -11,10 +11,13 @@ const CreateTeamFormation: React.FC<GameCreationComponentProps> = ({
     name: "",
     adminName: "",
     adminPin: "",
+    teamType: "",
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     if (name === "adminPin" && value.length > 4) {
@@ -42,6 +45,7 @@ const CreateTeamFormation: React.FC<GameCreationComponentProps> = ({
       adminPin: formData.adminPin,
       gameConfig: {
         gameLinked: false,
+        teamType: formData.teamType,
       },
     };
 
@@ -116,6 +120,25 @@ const CreateTeamFormation: React.FC<GameCreationComponentProps> = ({
                 inputMode="numeric"
                 required
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Team Type*
+              </label>
+              <select
+                name="teamType"
+                value={formData.teamType || ""}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                required
+              >
+                <option value="" disabled>
+                  Select team type
+                </option>
+                <option value="color">Color</option>
+                <option value="number">Number</option>
+              </select>
             </div>
           </div>
 

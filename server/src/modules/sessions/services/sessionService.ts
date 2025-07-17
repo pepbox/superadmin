@@ -11,6 +11,7 @@ export class SessionService {
     adminLink,
     adminPin,
     adminName,
+
     gameSessionId,
   }: {
     name: string;
@@ -39,6 +40,17 @@ export class SessionService {
       runValidators: true,
     }).exec();
   }
+  async updateSessionByGameSessionId(gameSessionId: string, updateData: Partial<ISession>) {
+    return await this.SessionModel.findOneAndUpdate(
+      { gameSessionId },
+      updateData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).exec();
+  }
+
 
   async getLiveSessions() {
     return await this.SessionModel.find({ status: SessionStatus.LIVE })
@@ -55,5 +67,9 @@ export class SessionService {
 
   async getSessionById(sessionId: string) {
     return await this.SessionModel.findById(sessionId).populate("game").exec();
+  }
+
+  async getSessionByGameSessionId(gameSessionId: string) {
+    return await this.SessionModel.findOne({ gameSessionId }).populate("game").exec();
   }
 }
