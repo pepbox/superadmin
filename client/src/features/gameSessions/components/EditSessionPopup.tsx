@@ -84,16 +84,16 @@ const EditSessionPopup: React.FC<EditSessionPopupProps> = ({
   return (
     <>
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-2xl p-6 w-[80%] max-w-[1152px] mx-auto">
-          <div className="flex justify-between items-center mb-6">
+        <div className="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-[95vw] sm:max-w-[600px] md:max-w-[800px] lg:max-w-[1152px] mx-auto">
+          <div className="flex justify-between items-center mb-4 sm:mb-6">
             <div className="text-center w-full">
-              <h2 className="text-2xl font-bold">Edit Session</h2>
+              <h2 className="text-lg sm:text-2xl font-bold">Edit Session</h2>
             </div>
             <button
               onClick={onClose}
               className="p-1 rounded-full hover:bg-gray-100"
             >
-              <Close className="h-6 w-6" />
+              <Close className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
           </div>
           <div>
@@ -105,12 +105,12 @@ const EditSessionPopup: React.FC<EditSessionPopupProps> = ({
               name="sessionName"
               value={formData.sessionName}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
               placeholder="Enter session name"
               required
             />
 
-            <div className="grid grid-cols-2 gap-4 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
               <div>
                 <label className="block text-sm font-medium mb-1">
                   Enter Admin Name*
@@ -120,7 +120,7 @@ const EditSessionPopup: React.FC<EditSessionPopupProps> = ({
                   name="admin"
                   value={formData.admin}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
                   placeholder="Admin name"
                   required
                 />
@@ -134,7 +134,7 @@ const EditSessionPopup: React.FC<EditSessionPopupProps> = ({
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
                   placeholder="4-digit code"
                   pattern="\d{4}"
                   maxLength={4}
@@ -143,18 +143,18 @@ const EditSessionPopup: React.FC<EditSessionPopupProps> = ({
                 />
               </div>
             </div>
-            <div className="flex justify-between mt-6">
+            <div className="flex flex-col sm:flex-row justify-between mt-6 gap-2">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm sm:text-base"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400"
+                className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400 text-sm sm:text-base"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Updating..." : "Update"}

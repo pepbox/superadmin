@@ -26,33 +26,33 @@ const DashboardMain: React.FC<DashboardMainProps> = ({ searchQuery }) => {
   };
 
   return (
-    <div className="flex w-[85%] mx-auto ">
-      <div className="w-[80%] flex flex-col gap-4">
-        <GamesList
-          handleCreateSession={handleCreateSession}
-          searchQuery={searchQuery}
-        />
-        <LiveGames
-          handleShowSessionInfo={handleShowSessionInfo}
-          searchQuery={searchQuery}
-        />
-        <GamesHistory searchQuery={searchQuery} />
+    <div className="flex flex-col lg:flex-row w-full lg:w-[85%] mx-auto px-2">
+      <div className="w-full lg:w-[80%] flex flex-col gap-4">
+      <GamesList
+        handleCreateSession={handleCreateSession}
+        searchQuery={searchQuery}
+      />
+      <LiveGames
+        handleShowSessionInfo={handleShowSessionInfo}
+        searchQuery={searchQuery}
+      />
+      <GamesHistory searchQuery={searchQuery} />
       </div>
-      <div className="w-[20%]">
-        <GamesStats />
+      <div className="w-full lg:w-[20%] mt-4 lg:mt-0">
+      <GamesStats />
       </div>
       <CreateSessionPopup
-        activeGame={activeGame}
-        isOpen={createSessionOpen}
-        onClose={() => setCreateSessionOpen(false)}
-        handleShowSessionInfo={handleShowSessionInfo}
+      activeGame={activeGame}
+      isOpen={createSessionOpen}
+      onClose={() => setCreateSessionOpen(false)}
+      handleShowSessionInfo={handleShowSessionInfo}
       />
       {sessionData && (
-        <SessionInfoPopup
-          isOpen={sessionInfoModalOpen}
-          onClose={() => setSessionInfoModalOpen(false)}
-          sessionData={sessionData}
-        />
+      <SessionInfoPopup
+        isOpen={sessionInfoModalOpen}
+        onClose={() => setSessionInfoModalOpen(false)}
+        sessionData={sessionData}
+      />
       )}
     </div>
   );

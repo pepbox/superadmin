@@ -46,7 +46,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    
+
     timeoutRef.current = setTimeout(() => {
       setSearchQuery(localSearchQuery);
     }, 300); // 300ms delay
@@ -73,19 +73,27 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     }
   }, [dispatch, refetchLive, refetchEnded]);
 
-  const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setLocalSearchQuery(event.target.value);
-  }, []);
+  const handleSearchChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setLocalSearchQuery(event.target.value);
+    },
+    []
+  );
 
   return (
-    <div>
-      <div className="w-[80%] mx-auto">
-        <div className="h-[60px] flex items-center justify-between">
-          <div className="flex gap-[40px]">
-            <div className="flex items-center text-[16px] text-[#111111]">
-              <h1 className="text-[24px] font-bold">Super Admin</h1>
+    <div className="w-full">
+      {/* Header Section */}
+      <div className="w-full max-w-[1200px] mx-auto px-4">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 h-auto md:h-[60px] py-4 md:py-0">
+          {/* Left Side */}
+          <div className="flex flex-col md:flex-row gap-4 md:gap-[40px] w-full md:w-auto items-center">
+            <div className="flex items-center text-[16px] text-[#111111] py-2">
+              <h1 className="text-[20px] md:text-[24px] font-bold">
+                Super Admin
+              </h1>
             </div>
-            <div>
+            {/* Search and Logout in one row for all screens */}
+            <div className="flex w-full md:w-auto items-center gap-4">
               <TextField
                 value={localSearchQuery}
                 onChange={handleSearchChange}
@@ -95,6 +103,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 sx={{
                   borderRadius: "12px",
                   backgroundColor: "#fff",
+                  width: "100%",
+                  maxWidth: "250px",
                 }}
                 slotProps={{
                   input: {
@@ -109,25 +119,32 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                     },
                   },
                 }}
+                className="w-full md:w-[250px]"
               />
+              <LogoutButton />
             </div>
           </div>
-          <div className="h-[60px] flex items-center gap-[30px]">
-            <h1 className="font-sans text-[16px] font-bold">Home</h1>
+          {/* Right Side */}
+          <div className="flex items-center gap-4 md:gap-[30px] w-full md:w-auto justify-start mt-2 md:mt-0">
+            <h1 className="font-sans text-[16px] font-bold hidden md:block">
+              Home
+            </h1>
             {/* <h1 className="font-sans text-[16px]">Manage Games</h1> */}
-            <LogoutButton />
           </div>
         </div>
       </div>
-      <div className="bg-[#FCA61E]/10 h-[72px]">
-        <div className="w-[80%] h-full mx-auto flex items-center">
-          {" "}
-          <div className="h-full w-full ">
-            <h1 className="h-full font-bold text-[24px] flex items-center justify-center">
+      {/* Sub Header Section */}
+      <div className="bg-[#FCA61E]/10 w-full">
+        <div className="w-full max-w-[1200px] mx-auto px-4 flex flex-col md:flex-row items-center justify-between h-auto md:h-[72px] py-4 md:py-0">
+          <div className="w-full md:w-auto flex-1 flex items-center justify-center md:justify-start h-full">
+            <h1 className="font-bold text-[18px] md:text-[24px] flex items-center justify-center md:justify-start h-full">
               Game Master Console
             </h1>
           </div>
-          <div className="ml-4 cursor-pointer" onClick={handleRefresh}>
+          <div
+            className="mt-2 md:mt-0 ml-0 md:ml-4 cursor-pointer flex-shrink-0 flex items-center justify-center"
+            onClick={handleRefresh}
+          >
             <RotatingIcon rotating={isRefreshing} />
           </div>
         </div>

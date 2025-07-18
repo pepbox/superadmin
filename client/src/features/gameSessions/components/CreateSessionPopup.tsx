@@ -56,20 +56,20 @@ const CreateSessionPopup: React.FC<CreateSessionPopupProps> = ({
 
   if (!isOpen || !GameCreationComponent) return null;
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
-      <div className="bg-white p-6 rounded-lg shadow-lg min-w-[50vw]">
-        <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-          onClick={onClose}
-        >
-          <X />
-        </button>
-        <GameCreationComponent
-          onClose={onClose}
-          isSubmitting={isLoading}
-          handleCreateSession={handleCreateSession}
-          handleShowSessionInfo={handleShowSessionInfo}
-        />
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40 px-2">
+      <div className="relative bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
+      <button
+        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+        onClick={onClose}
+      >
+        <X />
+      </button>
+      <GameCreationComponent
+        onClose={onClose}
+        isSubmitting={isLoading}
+        handleCreateSession={handleCreateSession}
+        handleShowSessionInfo={handleShowSessionInfo}
+      />
       </div>
     </div>
   );

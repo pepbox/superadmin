@@ -54,37 +54,39 @@ const CustomTable: React.FC<CustomTableProps> = ({
   return (
     <div className="w-full bg-white rounded-lg">
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr>
-              {columns.map((column, index) => (
-                <th
-                  key={index}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider"
-                >
-                  {column.header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, rowIndex) => (
-              <tr
-                key={row[keyField] || rowIndex}
-                className={`${rowIndex % 2 === 0 ? "bg-gray-50" : ""}`}
-              >
-                {columns.map((column, colIndex) => (
-                  <td
-                    key={colIndex}
-                    className="px-6 py-3 whitespace-nowrap text-sm"
-                  >
-                    {renderCell(column, row)}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <table className="min-w-full w-full table-auto">
+        <thead className="hidden md:table-header-group">
+        <tr>
+          {columns.map((column, index) => (
+          <th
+            key={index}
+            className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider"
+          >
+            {column.header}
+          </th>
+          ))}
+        </tr>
+        </thead>
+        <tbody>
+        {data.map((row, rowIndex) => (
+          <tr
+          key={row[keyField] || rowIndex}
+          className={`${rowIndex % 2 === 0 ? "bg-gray-50" : ""} md:table-row flex flex-col md:flex-row w-full mb-4 md:mb-0`}
+          >
+          {columns.map((column, colIndex) => (
+            <td
+            key={colIndex}
+            className="px-4 md:px-6 py-3 whitespace-nowrap text-sm flex md:table-cell items-center"
+            data-label={column.header}
+            >
+            <span className="block md:hidden font-medium text-gray-500 mr-2">{column.header}:</span>
+            {renderCell(column, row)}
+            </td>
+          ))}
+          </tr>
+        ))}
+        </tbody>
+      </table>
       </div>
     </div>
   );

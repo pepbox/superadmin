@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GameCreationComponentProps } from "../../components/CreateSessionPopup";
-import { Close } from "@mui/icons-material";
+// import { Close } from "@mui/icons-material";
 
 const CreateTeamFormation: React.FC<GameCreationComponentProps> = ({
   onClose,
@@ -58,107 +58,105 @@ const CreateTeamFormation: React.FC<GameCreationComponentProps> = ({
     formData.adminPin.trim() !== "";
 
   return (
-    <div>
-      {" "}
+    <div className="w-full max-w-lg mx-auto bg-white rounded-xl  p-4 sm:p-8 px-3">
       <div className="flex justify-between items-center mb-6">
-        <div className="text-center w-full">
-          <h2 className="text-2xl font-bold">Team Formation</h2>
-          <h3 className="text-xl font-semibold">Create New Session</h3>
-        </div>
-        <button
-          onClick={onClose}
-          className="p-1 rounded-full hover:bg-gray-100"
-        >
-          <Close className="h-6 w-6" />
-        </button>
+      <div className="text-center w-full">
+        <h2 className="text-2xl sm:text-3xl font-bold">Team Formation</h2>
+        <h3 className="text-xl sm:text-2xl font-semibold">Create New Session</h3>
+      </div>
+      {/* <button
+        onClick={onClose}
+        className="p-1 rounded-full hover:bg-gray-100 ml-2"
+      >
+        <Close className="h-6 w-6" />
+      </button> */}
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Session Name*
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-              placeholder="Enter session name"
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Enter Admin Name*
-              </label>
-              <input
-                type="text"
-                name="adminName"
-                value={formData.adminName}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                placeholder="Admin name"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Admin Passcode*
-              </label>
-              <input
-                type="text"
-                name="adminPin"
-                value={formData.adminPin}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                placeholder="4-digit code"
-                pattern="\d{4}"
-                maxLength={4}
-                inputMode="numeric"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Team Type*
-              </label>
-              <select
-                name="teamType"
-                value={formData.teamType || ""}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                required
-              >
-                <option value="" disabled>
-                  Select team type
-                </option>
-                <option value="color">Color</option>
-                <option value="number">Number</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="flex justify-between mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400"
-              disabled={!isFormValid}
-            >
-              {isSubmitting ? "Creating..." : "Create"}
-            </button>
-          </div>
+      <div className="space-y-4">
+        <div>
+        <label className="block text-sm font-medium mb-1">
+          Session Name*
+        </label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+          placeholder="Enter session name"
+          required
+        />
         </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium mb-1">
+          Enter Admin Name*
+          </label>
+          <input
+          type="text"
+          name="adminName"
+          value={formData.adminName}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+          placeholder="Admin name"
+          required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">
+          Admin Passcode*
+          </label>
+          <input
+          type="text"
+          name="adminPin"
+          value={formData.adminPin}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+          placeholder="4-digit code"
+          pattern="\d{4}"
+          maxLength={4}
+          inputMode="numeric"
+          required
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <label className="block text-sm font-medium mb-1">
+          Team Type*
+          </label>
+          <select
+          name="teamType"
+          value={formData.teamType || ""}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+          required
+          >
+          <option value="" disabled>
+            Select team type
+          </option>
+          <option value="color">Color</option>
+          <option value="number">Number</option>
+          </select>
+        </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row justify-between mt-6 gap-3">
+        <button
+          type="button"
+          onClick={onClose}
+          className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400 transition"
+          disabled={!isFormValid}
+        >
+          {isSubmitting ? "Creating..." : "Create"}
+        </button>
+        </div>
+      </div>
       </form>
     </div>
   );

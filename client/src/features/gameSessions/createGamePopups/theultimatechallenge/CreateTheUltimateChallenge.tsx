@@ -223,8 +223,8 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-2xl p-6 w-[80%] max-w-[1152px] mx-auto">
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-3">
+        <div className="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-[1152px] mx-auto overflow-y-auto max-h-screen">
           {questionsModalOpen ? (
             <QuestionsSelector
               onClose={() => setQuestionsModalOpen(false)}
@@ -236,23 +236,27 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
             />
           ) : (
             <>
-              <div className="flex justify-between items-center mb-6">
+              <div className="flex justify-between items-center mb-4 sm:mb-6">
                 <div className="text-center w-full">
-                  <h2 className="text-2xl font-bold">The Ultimate Challenge</h2>
-                  <h3 className="text-xl font-semibold">Create New Session</h3>
+                  <h2 className="text-lg sm:text-2xl font-bold">
+                    The Ultimate Challenge
+                  </h2>
+                  <h3 className="text-base sm:text-xl font-semibold">
+                    Create New Session
+                  </h3>
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-1 rounded-full hover:bg-gray-100"
+                  className="p-1 rounded-full hover:bg-gray-100 ml-2"
                 >
-                  <Close className="h-6 w-6" />
+                  <Close className="h-5 w-5 sm:h-6 sm:w-6" />
                 </button>
               </div>
 
               <form onSubmit={handleSubmit}>
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1">
+                    <label className="block text-xs sm:text-sm font-medium mb-1">
                       Session Name*
                     </label>
                     <input
@@ -260,15 +264,15 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                       name="sessionName"
                       value={formData.sessionName}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      className="w-full px-2 py-2 sm:px-3 sm:py-2 border border-gray-300 rounded-lg text-xs sm:text-base"
                       placeholder="Enter session name"
                       required
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-1">
+                      <label className="block text-xs sm:text-sm font-medium mb-1">
                         Enter Admin Name*
                       </label>
                       <input
@@ -276,13 +280,13 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                         name="admin"
                         value={formData.admin}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                        className="w-full px-2 py-2 sm:px-3 sm:py-2 border border-gray-300 rounded-lg text-xs sm:text-base"
                         placeholder="Admin name"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1">
+                      <label className="block text-xs sm:text-sm font-medium mb-1">
                         Admin Passcode*
                       </label>
                       <input
@@ -290,7 +294,7 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                        className="w-full px-2 py-2 sm:px-3 sm:py-2 border border-gray-300 rounded-lg text-xs sm:text-base"
                         placeholder="4-digit code"
                         pattern="\d{4}"
                         maxLength={4}
@@ -301,28 +305,30 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-1">
+                    <label className="block text-xs sm:text-sm font-medium mb-1">
                       Addons
-                      {/* (Coming soon) */}
                     </label>
                     <div className="flex items-center">
-                      <span className="mr-2">Team Formation Game</span>
+                      <span className="mr-2 text-xs sm:text-base">
+                        Team Formation Game
+                      </span>
                       <Switch
                         name="teamFormationGame"
                         checked={formData.teamFormationGame}
                         onChange={handleChange}
                         color="primary"
-                        // disabled={true}
                       />
                     </div>
                   </div>
 
                   <div className="border-t border-gray-200 pt-4">
-                    <h4 className="font-medium mb-3">Game Rules</h4>
+                    <h4 className="font-medium mb-2 sm:mb-3 text-xs sm:text-base">
+                      Game Rules
+                    </h4>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       <div>
-                        <label className="block text-sm font-medium mb-1">
+                        <label className="block text-xs sm:text-sm font-medium mb-1">
                           Number of Teams*
                         </label>
                         <input
@@ -331,19 +337,19 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                           value={formData.numberOfTeams}
                           onChange={handleNumberChange}
                           min="2"
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                          className="w-full px-2 py-2 sm:px-3 sm:py-2 border border-gray-300 rounded-lg text-xs sm:text-base"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium mb-1">
+                        <label className="block text-xs sm:text-sm font-medium mb-1">
                           Number of Questions (per level)*
                         </label>
                         <select
                           name="questionsPerLevel"
                           value={formData.questionsPerLevel}
                           onChange={handleNumberChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg appearance-none"
+                          className="w-full px-2 py-2 sm:px-3 sm:py-2 border border-gray-300 rounded-lg appearance-none text-xs sm:text-base"
                           required
                         >
                           {[...Array(13)].map((_, i) => (
@@ -355,15 +361,15 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                       </div>
                     </div>
 
-                    <div className="mt-4">
-                      <label className="block text-sm font-medium mb-1">
+                    <div className="mt-3 sm:mt-4">
+                      <label className="block text-xs sm:text-sm font-medium mb-1">
                         Game Levels (Max 3)*
                       </label>
                       <select
                         name="numberOfLevels"
                         value={formData.numberOfLevels}
                         onChange={handleNumberChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg appearance-none"
+                        className="w-full px-2 py-2 sm:px-3 sm:py-2 border border-gray-300 rounded-lg appearance-none text-xs sm:text-base"
                         required
                       >
                         <option value={1}>1</option>
@@ -372,12 +378,12 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                       </select>
                     </div>
 
-                    <div className="mt-4">
-                      <label className="block text-sm font-medium mb-1">
+                    <div className="mt-3 sm:mt-4">
+                      <label className="block text-xs sm:text-sm font-medium mb-1">
                         Questions
                       </label>
-                      <div className="flex items-center justify-between border border-gray-300 rounded-lg px-3 py-2">
-                        <span>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border border-gray-300 rounded-lg px-2 py-2 sm:px-3 sm:py-2">
+                        <span className="text-xs sm:text-base mb-2 sm:mb-0">
                           {`${totalSelectedQuestions} / ${
                             formData.questionsPerLevel * formData.numberOfLevels
                           } Questions Selected`}
@@ -385,7 +391,7 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                         <button
                           type="button"
                           onClick={() => setQuestionsModalOpen(true)}
-                          className="text-blue-500 hover:text-blue-700 flex items-center"
+                          className="text-blue-500 hover:text-blue-700 flex items-center text-xs sm:text-base"
                           disabled={allQuestions.length === 0}
                         >
                           Edit Selection
@@ -395,17 +401,17 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                     </div>
                   </div>
 
-                  <div className="flex justify-between mt-6">
+                  <div className="flex flex-col sm:flex-row justify-between mt-4 sm:mt-6 gap-2">
                     <button
                       type="button"
                       onClick={onClose}
-                      className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                      className="px-4 py-2 sm:px-6 sm:py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-xs sm:text-base"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400"
+                      className="px-4 py-2 sm:px-6 sm:py-2 bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400 text-xs sm:text-base"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? "Creating..." : "Create"}
