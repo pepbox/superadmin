@@ -53,10 +53,12 @@ const GamesHistory: React.FC<GamesHistoryProps> = ({ searchQuery }) => {
 
   if (!gamesHistory) return null;
   return (
-    <div className="w-full max-w-6xl mx-auto px-2 sm:px-4">
-      <h1 className="font-bold text-[16px] my-3 text-center sm:text-left">Games History</h1>
+    <div className="w-full max-w-6xl  sm:px-4">
+      <h1 className="font-bold text-[16px] my-3 text-center sm:text-left">
+        Games History
+      </h1>
       <div className="overflow-x-auto">
-      <CustomTable keyField="_id" data={filteredGames} columns={columns} />
+        <CustomTable keyField="_id" data={filteredGames} columns={columns} />
       </div>
     </div>
   );
