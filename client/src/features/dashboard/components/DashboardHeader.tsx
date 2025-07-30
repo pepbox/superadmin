@@ -83,7 +83,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   return (
     <div className="w-full">
       {/* Header Section */}
-      <div className="w-full max-w-[1200px] mx-auto px-4">
+      <div className="w-full max-w-[1600px] mx-auto px-4 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 h-auto md:h-[60px] py-4 md:py-0">
           {/* Left Side */}
           <div className="flex flex-col md:flex-row gap-4 md:gap-[40px] w-full md:w-auto items-center">
@@ -121,21 +121,18 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 }}
                 className="w-full md:w-[250px]"
               />
-              <LogoutButton />
             </div>
           </div>
           {/* Right Side */}
           <div className="flex items-center gap-4 md:gap-[30px] w-full md:w-auto justify-start mt-2 md:mt-0">
-            <h1 className="font-sans text-[16px] font-bold hidden md:block">
-              Home
-            </h1>
+            <LogoutButton />
             {/* <h1 className="font-sans text-[16px]">Manage Games</h1> */}
           </div>
         </div>
       </div>
       {/* Sub Header Section */}
       <div className="bg-[#FCA61E]/10 w-full">
-        <div className="w-full max-w-[1200px] mx-auto px-4 flex flex-col md:flex-row items-center justify-between h-auto md:h-[72px] py-4 md:py-0">
+        <div className="w-full max-w-[1600px] mx-auto px-4 lg:px-8 flex flex-col md:flex-row items-center justify-between h-auto md:h-[72px] py-4 md:py-0">
           <div className="w-full md:w-auto flex-1 flex items-center justify-center md:justify-start h-full">
             <h1 className="font-bold text-[18px] md:text-[24px] flex items-center justify-center md:justify-start h-full">
               Game Master Console

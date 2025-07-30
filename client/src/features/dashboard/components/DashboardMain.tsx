@@ -25,18 +25,25 @@ const DashboardMain: React.FC<DashboardMainProps> = ({ searchQuery }) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row w-full lg:w-[85%] ">
-      <div className="w-full flex flex-col gap-4 lg:pl-10 px-4">
+    <div className="w-full max-w-[1600px] mx-auto px-4 lg:px-8">
+      {/* Games List Section */}
+      <div className="mb-8">
         <GamesList
           handleCreateSession={handleCreateSession}
           searchQuery={searchQuery}
         />
       </div>
-      <div className="w-full flex flex-col gap-4 lg:pl-10 px-4">
+      
+      {/* Live Games Section */}
+      <div className="mb-8">
         <LiveGames
           handleShowSessionInfo={handleShowSessionInfo}
           searchQuery={searchQuery}
         />
+      </div>
+      
+      {/* Games History Section */}
+      <div className="mb-8">
         <GamesHistory searchQuery={searchQuery} />
       </div>
       <CreateSessionPopup

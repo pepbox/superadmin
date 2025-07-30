@@ -53,12 +53,18 @@ const GamesHistory: React.FC<GamesHistoryProps> = ({ searchQuery }) => {
 
   if (!gamesHistory) return null;
   return (
-    <div className="w-full max-w-6xl  sm:px-4">
-      <h1 className="font-bold text-[16px] my-3 text-center sm:text-left">
+    <div className="w-full">
+      <h1 className="font-bold text-[18px] mb-6">
         Games History
       </h1>
-      <div className="overflow-x-auto">
-        <CustomTable keyField="_id" data={filteredGames} columns={columns} />
+      <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+        <CustomTable 
+          keyField="_id" 
+          data={filteredGames} 
+          columns={columns} 
+          pageSize={8}
+          enablePagination={true}
+        />
       </div>
     </div>
   );
