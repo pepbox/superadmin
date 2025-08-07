@@ -10,6 +10,7 @@ const CreateGetSetKnow: React.FC<GameCreationComponentProps> = ({
     name: "",
     adminName: "",
     adminPin: "",
+    numberOfTeams: 0,
   });
 
   const handleChange = (
@@ -42,6 +43,7 @@ const CreateGetSetKnow: React.FC<GameCreationComponentProps> = ({
       adminName: formData.adminName,
       adminPin: formData.adminPin,
       gameConfig: {
+        numberOfTeams: formData.numberOfTeams,
         gameLinked: false,
       },
     };
@@ -52,14 +54,17 @@ const CreateGetSetKnow: React.FC<GameCreationComponentProps> = ({
   const isFormValid =
     formData.name.trim() !== "" &&
     formData.adminName.trim() !== "" &&
-    formData.adminPin.trim() !== "";
+    formData.adminPin.trim() !== "" &&
+    formData.numberOfTeams > 0;
 
   return (
     <div className="w-full max-w-lg mx-auto bg-white rounded-xl p-4 sm:p-8 px-3">
       <div className="flex justify-between items-center mb-6">
         <div className="text-center w-full">
           <h2 className="text-2xl sm:text-3xl font-bold">GetSetKnow</h2>
-          <h3 className="text-xl sm:text-2xl font-semibold">Create New Session</h3>
+          <h3 className="text-xl sm:text-2xl font-semibold">
+            Create New Session
+          </h3>
         </div>
       </div>
       <form onSubmit={handleSubmit}>
@@ -108,6 +113,20 @@ const CreateGetSetKnow: React.FC<GameCreationComponentProps> = ({
                 pattern="\d{4}"
                 maxLength={4}
                 inputMode="numeric"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-xs sm:text-sm font-medium mb-1">
+                Number of Teams*
+              </label>
+              <input
+                type="number"
+                name="numberOfTeams"
+                value={formData.numberOfTeams}
+                onChange={handleChange}
+                min="2"
+                className="w-full px-2 py-2 sm:px-3 sm:py-2 border border-gray-300 rounded-lg text-xs sm:text-base"
                 required
               />
             </div>

@@ -87,18 +87,30 @@ const LiveGames: React.FC<LiveGamesProps> = ({
               </div>
               <div className="mt-4">
                 <div className="flex w-full px-4 justify-between items-center mt-2">
-                  <h1 className="text-sm md:text-base text-gray-600">Admin</h1>
-                  <div className="text-sm md:text-base font-medium">{game.adminName}</div>
+                  <h1 className="text-sm md:text-base text-gray-600">Game</h1>
+                  <div className="text-sm md:text-base font-medium">
+                    {game?.game?.name}
+                  </div>
                 </div>
                 <div className="flex w-full px-4 justify-between items-center mt-2">
-                  <h1 className="text-sm md:text-base text-gray-600">Players</h1>
+                  <h1 className="text-sm md:text-base text-gray-600">Admin</h1>
+                  <div className="text-sm md:text-base font-medium">
+                    {game.adminName}
+                  </div>
+                </div>
+                <div className="flex w-full px-4 justify-between items-center mt-2">
+                  <h1 className="text-sm md:text-base text-gray-600">
+                    Players
+                  </h1>
                   <div className="text-sm md:text-base font-medium">
                     {game.totalPlayers}
                   </div>
                 </div>
                 <div className="flex w-full px-4 justify-between items-center mt-2">
                   <h1 className="text-sm md:text-base text-gray-600">Teams</h1>
-                  <div className="text-sm md:text-base font-medium">{game.totalTeams}</div>
+                  <div className="text-sm md:text-base font-medium">
+                    {game.totalTeams}
+                  </div>
                 </div>
               </div>
               <div className="flex flex-col gap-2 w-full px-4 mt-4">

@@ -7,6 +7,9 @@ export interface SessionData {
   adminPassword: string;
   totalPlayers: number;
   totalTeams: number;
+  game?: {
+    name?: string;
+  }
 }
 
 export interface CreateGameSessionRequest {
