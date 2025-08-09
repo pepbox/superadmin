@@ -10,7 +10,7 @@ const CreateGetSetKnow: React.FC<GameCreationComponentProps> = ({
     name: "",
     adminName: "",
     adminPin: "",
-    numberOfTeams: 0,
+    numberOfTeams: 1,
   });
 
   const handleChange = (
@@ -125,7 +125,7 @@ const CreateGetSetKnow: React.FC<GameCreationComponentProps> = ({
                 name="numberOfTeams"
                 value={formData.numberOfTeams}
                 onChange={handleChange}
-                min="2"
+                min="1"
                 className="w-full px-2 py-2 sm:px-3 sm:py-2 border border-gray-300 rounded-lg text-xs sm:text-base"
                 required
               />
