@@ -52,6 +52,9 @@ export const gameSesssionApi = api.injectEndpoints({
           totalTeams: session.totalTeams || 0,
           adminGameLink: session.adminLink,
           playerGameLink: session.playerLink,
+          game: {
+            name: session.game?.name || "The Ultimate Team Challenge",
+          },
         })),
       providesTags: [API_TAGS.SESSIONS],
     }),

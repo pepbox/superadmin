@@ -103,11 +103,8 @@ const SessionInfoPopup: React.FC<SessionInfoPopupProps> = ({
 
         // Draw "The Ultimate Team Challenge" title
         ctx.font = "bold 24px Arial";
-        ctx.fillText(
-          sessionData?.game?.name ?? "The Ultimate Challenge",
-          canvasWidth / 2,
-          65
-        );
+        console.log(sessionData);
+        ctx.fillText(sessionData?.game?.name ?? "", canvasWidth / 2, 65);
 
         // Draw session name
         ctx.font = "bold 18px Arial";
