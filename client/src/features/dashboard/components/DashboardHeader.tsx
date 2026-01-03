@@ -95,6 +95,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             {/* Search and Logout in one row for all screens */}
             <div className="flex w-full md:w-auto items-center gap-4">
               <TextField
+                type="text"
                 value={localSearchQuery}
                 onChange={handleSearchChange}
                 placeholder="Search"

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, Copy, QrCode, Share, X } from "lucide-react";
+import { ArrowRightToLine, Check, Copy, ExternalLink, PanelRight, QrCode, Share, X } from "lucide-react";
 import QRCode from "qrcode";
 import { SessionData } from "../types/sessionTypes";
 
@@ -30,10 +30,9 @@ const SessionInfoPopup: React.FC<SessionInfoPopupProps> = ({
                     Admin: ${sessionData.adminName}
                     Player Link: ${playerLink}
                     Admin Link: ${adminLink}
-                    ${
-                      sessionData.adminPassword &&
-                      `Admin Password: ${sessionData.adminPassword}`
-                    }`;
+                    ${sessionData.adminPassword &&
+      `Admin Password: ${sessionData.adminPassword}`
+      }`;
 
     navigator.clipboard.writeText(details);
     setCopiedField("all");
@@ -314,6 +313,13 @@ const SessionInfoPopup: React.FC<SessionInfoPopupProps> = ({
               </svg>
               <span className="hidden sm:inline">Share on WhatsApp</span>
               <span className="sm:hidden">WhatsApp</span>
+            </button>
+            <button
+              onClick={() => window.open(`${adminLink}?pin=${sessionData.adminPassword}`, "_blank")}
+              className="flex-1 bg-gray-900 text-white py-2.5 px-4 rounded-md font-medium hover:bg-gray-800 transition-colors flex items-center justify-center space-x-2 text-sm sm:text-base"
+            >
+              <ExternalLink className="w-4 h-4" />
+              <span className="hidden sm:inline">Open</span>
             </button>
           </div>
 

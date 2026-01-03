@@ -8,6 +8,7 @@ router.post("/create", authenticateUser, SessionControllers.createSession);
 router.get("/", authenticateUser, SessionControllers.getSessions);
 router.post("/edit", authenticateUser, SessionControllers.editSession);
 router.post("/update", SessionControllers.updateSession);
+router.post("/end", authenticateUser, SessionControllers.endSession);
 
 router.post(
   "/custom-game-request",

@@ -5,6 +5,7 @@ import { SessionData } from "../types/sessionTypes";
 import { filterBySearch } from "../../../utility/searchUtils";
 import { Edit2 } from "lucide-react";
 import EditSessionPopup from "./EditSessionPopup";
+import EndSessionModal from "./EndSessionModal";
 import GamesStats from "./GamesStats";
 
 interface LiveGamesProps {
@@ -21,6 +22,7 @@ const LiveGames: React.FC<LiveGamesProps> = ({
   const { data: liveGames, isLoading } = useGetSessionsQuery("live");
 
   const [editSessionModalOpen, setEditSessionModalOpen] = useState(false);
+  const [endSessionModalOpen, setEndSessionModalOpen] = useState(false);
   const [sessionData, setSessionData] = useState<SessionData | null>(null);
   const [copyLink, setCopyLink] = useState<number | null>(null);
   const [page, setPage] = useState(1);
@@ -39,6 +41,11 @@ const LiveGames: React.FC<LiveGamesProps> = ({
 
   const handleEditSession = (game: SessionData) => {
     setEditSessionModalOpen(true);
+    setSessionData(game);
+  };
+
+  const handleEndSession = (game: SessionData) => {
+    setEndSessionModalOpen(true);
     setSessionData(game);
   };
 
@@ -120,12 +127,20 @@ const LiveGames: React.FC<LiveGamesProps> = ({
                 >
                   {copyLink === index ? "Copied!" : "Copy Link"}
                 </button>
-                <button
-                  onClick={() => handleShowSessionInfo(game)}
-                  className="bg-black text-white h-[34px] cursor-pointer rounded-[12px] text-sm hover:bg-gray-800 transition-colors duration-200"
-                >
-                  View
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleShowSessionInfo(game)}
+                    className="bg-black text-white flex-1 h-[34px] cursor-pointer rounded-[12px] text-sm hover:bg-gray-800 transition-colors duration-200"
+                  >
+                    View
+                  </button>
+                  <button
+                    onClick={() => handleEndSession(game)}
+                    className="bg-black text-white flex-1 h-[34px] cursor-pointer rounded-[12px] text-sm hover:bg-gray-800 transition-colors duration-200"
+                  >
+                    End Session
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -156,6 +171,11 @@ const LiveGames: React.FC<LiveGamesProps> = ({
         isOpen={editSessionModalOpen}
         sessionData={sessionData}
         onClose={() => setEditSessionModalOpen(false)}
+      />
+      <EndSessionModal
+        isOpen={endSessionModalOpen}
+        sessionData={sessionData}
+        onClose={() => setEndSessionModalOpen(false)}
       />
     </div>
   );

@@ -8,5 +8,6 @@ export interface IGame {
     getSession: string;
     updateSession: string;
     deleteSession: string;
+    endSession?: string;
   };
 }

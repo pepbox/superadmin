@@ -29,6 +29,9 @@ const gameSchema: Schema<IGame> = new Schema<IGame>(
       deleteSession: {
         type: String,
       },
+      endSession: {
+        type: String,
+      }
     },
   },
   {

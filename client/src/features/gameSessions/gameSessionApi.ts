@@ -24,6 +24,17 @@ export const gameSesssionApi = api.injectEndpoints({
       }),
       invalidatesTags: [API_TAGS.SESSIONS],
     }),
+    endSession: build.mutation({
+      query: (sessionData: {
+        sessionId: string;
+        password: string;
+      }) => ({
+        url: `/sessions/end`,
+        method: "POST",
+        body: sessionData,
+      }),
+      invalidatesTags: [API_TAGS.SESSIONS],
+    }),
     customGameRequest: build.mutation({
       query: (requestData: {
         gameId: string;
@@ -66,4 +77,5 @@ export const {
   useCustomGameRequestMutation,
   useGetSessionsQuery,
   useEditSessionMutation,
+  useEndSessionMutation,
 } = gameSesssionApi;

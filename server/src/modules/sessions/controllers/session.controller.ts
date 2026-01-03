@@ -2,16 +2,20 @@ import { NextFunction, Request, Response } from "express";
 import AppError from "../../../utils/appError";
 import { SessionService } from "../services/sessionService";
 import { GameService } from "../../games/services/gameService";
+import { AuthService } from "../../auth/services/authService";
 import axios from "axios";
 import { IGame } from "../../games/types/game";
+import { SessionStatus } from "../types/session";
 
 class SessionController {
   private sessionService: SessionService;
   private gameService: GameService;
+  private authService: AuthService;
 
   constructor() {
     this.sessionService = new SessionService();
     this.gameService = new GameService();
+    this.authService = new AuthService();
   }
 
   createSession = async (req: Request, res: Response, next: NextFunction) => {
@@ -269,6 +273,79 @@ class SessionController {
     }
   };
 
+  // controller for ending a session - makes request to remote game server
+  endSession = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { sessionId, password } = req.body;
+      if (!sessionId || !password) {
+        return next(new AppError("Session ID and password are required", 400));
+      }
+
+      // Verify superadmin password
+      const adminId = (req as any).user?.id;
+      if (!adminId) {
+        return next(new AppError("Unauthorized", 401));
+      }
+
+      const admin = await this.authService.findAdminById(adminId);
+      if (!admin) {
+        return next(new AppError("Admin not found", 404));
+      }
+
+      const isPasswordValid = await this.authService.comparePassword(
+        password,
+        admin.password
+      );
+      if (!isPasswordValid) {
+        return next(new AppError("Invalid password", 401));
+      }
+
+      // Get the session to find the associated game
+      const existingSession = await this.sessionService.getSessionById(sessionId);
+      if (!existingSession) {
+        return next(new AppError("Session not found", 404));
+      }
+
+      // Get the game details
+      const game = existingSession.game as any as IGame;
+
+      if (!game || !game.gameId) {
+        return next(new AppError("Associated game not found", 404));
+      }
+
+      // Make remote request to end session if endpoint exists
+      if (game.endpoints.endSession) {
+        const endSessionData = {
+          sessionId: existingSession.gameSessionId,
+        };
+
+        await this.makeRemoteGameRequest(
+          game,
+          game.endpoints.endSession,
+          "POST",
+          endSessionData
+        );
+      }
+
+      // Update local session status to ENDED
+      const updatedSession = await this.sessionService.updateSession(
+        sessionId,
+        {
+          status: SessionStatus.ENDED,
+          completedOn: new Date(),
+        }
+      );
+
+      res.status(200).json({
+        status: "success",
+        message: "Session ended successfully",
+        data: updatedSession,
+      });
+    } catch (error) {
+      console.error("Error ending session:", error);
+      next(new AppError("Failed to end session", 500));
+    }
+  };
 
 }
 
