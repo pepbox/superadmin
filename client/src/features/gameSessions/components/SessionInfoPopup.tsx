@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRightToLine, Check, Copy, ExternalLink, PanelRight, QrCode, Share, X } from "lucide-react";
+import {  Check, Copy, ExternalLink,  QrCode, Share, X } from "lucide-react";
 import QRCode from "qrcode";
 import { SessionData } from "../types/sessionTypes";
 
