@@ -1,6 +1,7 @@
 import CreateTeamFormation from "./createGamePopups/teamformation/CreateTeamFormation";
 import CreateTheUltimateChallenge from "./createGamePopups/theultimatechallenge/CreateTheUltimateChallenge";
 import CreateGetSetKnow from "./createGamePopups/getsetknow/CreateGetSetKnow";
+import CreateGreatestShowdown from "./createGamePopups/greatestShowdown/CreateGreatestShowdown";
 
 export const games = [
   {
@@ -18,4 +19,9 @@ export const games = [
     id: "getSetKnow",
     creationPopup: CreateGetSetKnow,
   },
+  {
+    name: "Greatest Showdown",
+    id: "greatestShowdown",
+    creationPopup: CreateGreatestShowdown,
+  }
 ];
