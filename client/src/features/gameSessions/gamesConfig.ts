@@ -2,6 +2,8 @@ import CreateTeamFormation from "./createGamePopups/teamformation/CreateTeamForm
 import CreateTheUltimateChallenge from "./createGamePopups/theultimatechallenge/CreateTheUltimateChallenge";
 import CreateGetSetKnow from "./createGamePopups/getsetknow/CreateGetSetKnow";
 import CreateGreatestShowdown from "./createGamePopups/greatestShowdown/CreateGreatestShowdown";
+import CreateTresureHunt from "./createGamePopups/tresurehunt/CreateTresureHunt";
+import CreateBuzzerBattle from "./createGamePopups/buzzerbattle/CreateBuzzerBattle";
 
 export const games = [
   {
@@ -23,5 +25,15 @@ export const games = [
     name: "Greatest Showdown",
     id: "greatestShowdown",
     creationPopup: CreateGreatestShowdown,
+  },
+  {
+    name: "Tresure Hunt",
+    id: "tresureHunt",
+    creationPopup: CreateTresureHunt,
+  },
+  {
+    name: "Buzzer Battle",
+    id: "buzzerBattle",
+    creationPopup: CreateBuzzerBattle,
   }
 ];
