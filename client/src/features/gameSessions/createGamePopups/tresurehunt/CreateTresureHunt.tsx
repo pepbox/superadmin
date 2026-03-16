@@ -39,7 +39,7 @@ const CreateTresureHunt: React.FC<GameCreationComponentProps> = ({
 
         const sessionData = {
             name: formData.name,
-            gameId: "tresureHunt",
+            gameId: "treasureHunt",
             adminName: formData.adminName,
             adminPin: formData.adminPin,
             gameConfig: {
