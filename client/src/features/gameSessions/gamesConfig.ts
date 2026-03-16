@@ -27,8 +27,8 @@ export const games = [
     creationPopup: CreateGreatestShowdown,
   },
   {
-    name: "Tresure Hunt",
-    id: "tresureHunt",
+    name: "Treasure Hunt",
+    id: "treasureHunt",
     creationPopup: CreateTresureHunt,
   },
   {
