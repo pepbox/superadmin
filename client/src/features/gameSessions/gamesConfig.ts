@@ -10,6 +10,7 @@ export const games = [
     name: "The Ultimate Challenge",
     id: "the-ultimate-challenge",
     creationPopup: CreateTheUltimateChallenge,
+    hasLibrary: true,
   },
   {
     name: "Team Formation",

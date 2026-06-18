@@ -191,11 +191,19 @@ class SessionController {
   ) => {
     const url = `${game.serverUrl}/${endpoint}`;
     try {
-      const response = await axios({
+      const config: any = {
         method: method.toLowerCase(),
         url: url,
-        data: data,
-      });
+        headers: {
+          "x-superadmin-token": process.env.SUPERADMIN_TOKEN || "",
+        },
+      };
+      if (method.toLowerCase() === "get") {
+        config.params = data;
+      } else {
+        config.data = data;
+      }
+      const response = await axios(config);
 
       if (endpoint === game.endpoints.createSession) {
         if (!response.data.data.adminLink || !response.data.data.playerLink) {

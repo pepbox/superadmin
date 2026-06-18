@@ -18,17 +18,31 @@ const GamesList: React.FC<GamesListProps> = ({
         {filteredGames.map((game, index) => (
           <div
             key={index}
-            className="h-[112px] bg-[#8C8C8C1A] rounded-[20px] p-4 flex flex-col justify-between hover:shadow-lg transition-shadow duration-200"
+            className="h-[120px] bg-[#8C8C8C1A] rounded-[20px] p-4 flex flex-col justify-between hover:shadow-lg transition-shadow duration-200"
           >
             <div>
-              <p className="font-bold text-[16px] line-clamp-2">{game.name}</p>
+              <p className="font-bold text-[16px] line-clamp-1">{game.name}</p>
             </div>
-            <button
-              className="w-full h-[34px] cursor-pointer rounded-[12px] border mt-4 hover:bg-gray-100 transition-colors duration-200"
-              onClick={() => handleCreateSession(game.id)}
-            >
-              Create New Session
-            </button>
+            <div className="flex gap-2 mt-2">
+              <button
+                className="flex-1 h-[34px] text-xs font-semibold cursor-pointer rounded-[12px] border hover:bg-gray-100 transition-colors duration-200"
+                onClick={() => handleCreateSession(game.id)}
+              >
+                Create Session
+              </button>
+              {game.hasLibrary && (
+                <button
+                  className="flex-1 h-[34px] text-xs font-semibold cursor-pointer rounded-[12px] bg-black text-white hover:bg-gray-800 transition-colors duration-200"
+                  onClick={() => {
+                    const frontendUrl = import.meta.env.VITE_THE_ULTIMATE_CHALLENGE_FRONTEND_URL || "http://localhost:5174";
+                    const passcode = import.meta.env.VITE_SUPERADMIN_LIBRARY_PASSCODE || "pepbox-superadmin-secret-library-passcode-2026";
+                    window.open(`${frontendUrl}/admin/questions?passcode=${encodeURIComponent(passcode)}`, "_blank");
+                  }}
+                >
+                  Manage Game
+                </button>
+              )}
+            </div>
           </div>
         ))}
       </div>
