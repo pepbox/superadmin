@@ -34,7 +34,10 @@ const GamesList: React.FC<GamesListProps> = ({
                 <button
                   className="flex-1 h-[34px] text-xs font-semibold cursor-pointer rounded-[12px] bg-black text-white hover:bg-gray-800 transition-colors duration-200"
                   onClick={() => {
-                    const frontendUrl = import.meta.env.VITE_THE_ULTIMATE_CHALLENGE_FRONTEND_URL || "http://localhost:5174";
+                    let frontendUrl = import.meta.env.VITE_THE_ULTIMATE_CHALLENGE_FRONTEND_URL || "http://localhost:5174";
+                    if (game.id === "buzzerBattle") {
+                      frontendUrl = import.meta.env.VITE_BUZZER_BATTLE_FRONTEND_URL || "http://localhost:5172";
+                    }
                     const passcode = import.meta.env.VITE_SUPERADMIN_LIBRARY_PASSCODE || "pepbox-superadmin-secret-library-passcode-2026";
                     window.open(`${frontendUrl}/admin/questions?passcode=${encodeURIComponent(passcode)}`, "_blank");
                   }}

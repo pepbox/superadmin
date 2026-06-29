@@ -4,6 +4,7 @@ import CreateGetSetKnow from "./createGamePopups/getsetknow/CreateGetSetKnow";
 import CreateGreatestShowdown from "./createGamePopups/greatestShowdown/CreateGreatestShowdown";
 import CreateTresureHunt from "./createGamePopups/tresurehunt/CreateTresureHunt";
 import CreateBuzzerBattle from "./createGamePopups/buzzerbattle/CreateBuzzerBattle";
+import CreateConnections from "./createGamePopups/connections/CreateConnections";
 
 export const games = [
   {
@@ -23,6 +24,11 @@ export const games = [
     creationPopup: CreateGetSetKnow,
   },
   {
+    name: "Connections",
+    id: "connections",
+    creationPopup: CreateConnections,
+  },
+  {
     name: "Greatest Showdown",
     id: "greatestShowdown",
     creationPopup: CreateGreatestShowdown,
@@ -36,5 +42,6 @@ export const games = [
     name: "Buzzer Battle",
     id: "buzzerBattle",
     creationPopup: CreateBuzzerBattle,
+    hasLibrary: true,
   }
 ];
