@@ -69,6 +69,13 @@ export const gameSesssionApi = api.injectEndpoints({
         })),
       providesTags: [API_TAGS.SESSIONS],
     }),
+    fetchAllGames: build.query({
+      query: () => ({
+        url: "/games/fetch-all",
+        method: "GET",
+      }),
+      transformResponse: (response: { data: any[] }) => response.data,
+    }),
   }),
 });
 
@@ -78,4 +85,5 @@ export const {
   useGetSessionsQuery,
   useEditSessionMutation,
   useEndSessionMutation,
+  useFetchAllGamesQuery,
 } = gameSesssionApi;

@@ -3,6 +3,7 @@ export interface IGame {
   name: string;
   gameId: string;
   serverUrl: string;
+  frontendUrl?: string;
   endpoints: {
     createSession: string;
     getSession: string;

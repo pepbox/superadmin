@@ -16,6 +16,9 @@ const gameSchema: Schema<IGame> = new Schema<IGame>(
       type: String,
       required: true,
     },
+    frontendUrl: {
+      type: String,
+    },
     endpoints: {
       createSession: {
         type: String,

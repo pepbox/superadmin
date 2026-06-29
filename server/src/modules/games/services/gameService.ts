@@ -29,11 +29,13 @@ export class GameService {
     gameId,
     name,
     serverUrl,
+    frontendUrl,
     endpoints,
   }: {
     gameId: string;
     name: string;
     serverUrl: string;
+    frontendUrl?: string;
     endpoints: {
       createSession?: string;
       getSession?: string;
@@ -45,6 +47,7 @@ export class GameService {
       gameId,
       name,
       serverUrl,
+      frontendUrl,
       endpoints,
     });
     return await newGame.save();
