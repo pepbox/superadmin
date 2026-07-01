@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Close } from "@mui/icons-material";
-import { Switch } from "@mui/material";
+// import { Switch } from "@mui/material";
 import { GameCreationComponentProps } from "../../components/CreateSessionPopup";
 import { CreateGameSessionRequest } from "../../types/sessionTypes";
 
@@ -98,7 +98,7 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
           <div className="flex justify-between items-center mb-4 sm:mb-6">
             <div className="text-center w-full">
               <h2 className="text-lg sm:text-2xl font-bold">
-                The Ultimate Challenge
+                Ultimate Team Challenge 
               </h2>
               <h3 className="text-base sm:text-xl font-semibold">
                 Create New Session
@@ -163,7 +163,7 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                 </div>
               </div>
 
-              <div>
+              {/* <div>
                 <label className="block text-xs sm:text-sm font-medium mb-1">
                   Addons
                 </label>
@@ -178,7 +178,7 @@ const CreateTheUltimateChallenge: React.FC<GameCreationComponentProps> = ({
                     color="primary"
                   />
                 </div>
-              </div>
+              </div> */}
 
 
 

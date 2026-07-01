@@ -8,7 +8,7 @@ import CreateConnections from "./createGamePopups/connections/CreateConnections"
 
 export const games = [
   {
-    name: "The Ultimate Challenge",
+    name: "Ultimate Team Challenge ",
     id: "the-ultimate-challenge",
     creationPopup: CreateTheUltimateChallenge,
     hasLibrary: true,
