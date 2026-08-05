@@ -24,7 +24,7 @@ export const games = [
     creationPopup: CreateGetSetKnow,
   },
   {
-    name: "The Human Konnect",
+    name: "Konnect",
     id: "connections",
     creationPopup: CreateConnections,
   },
