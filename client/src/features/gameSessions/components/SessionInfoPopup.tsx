@@ -2,6 +2,8 @@ import { useState } from "react";
 import {  Check, Copy, ExternalLink,  QrCode, Share, X } from "lucide-react";
 import QRCode from "qrcode";
 import { SessionData } from "../types/sessionTypes";
+import { getGameDisplayName } from "../gamesConfig";
+
 
 interface SessionInfoPopupProps {
   sessionData: SessionData;
@@ -103,7 +105,7 @@ const SessionInfoPopup: React.FC<SessionInfoPopupProps> = ({
         // Draw "The Ultimate Team Challenge" title
         ctx.font = "bold 24px Arial";
         console.log(sessionData);
-        ctx.fillText(sessionData?.game?.name ?? "", canvasWidth / 2, 65);
+        ctx.fillText(getGameDisplayName(sessionData?.game?.name) ?? "", canvasWidth / 2, 65);
 
         // Draw session name
         ctx.font = "bold 18px Arial";

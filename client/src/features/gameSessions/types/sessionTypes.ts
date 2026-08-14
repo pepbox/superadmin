@@ -7,6 +7,7 @@ export interface SessionData {
   adminPassword: string;
   totalPlayers: number;
   totalTeams: number;
+  createdAt?: string;
   game?: {
     name?: string;
   }

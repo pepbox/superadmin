@@ -7,6 +7,8 @@ import { Edit2 } from "lucide-react";
 import EditSessionPopup from "./EditSessionPopup";
 import EndSessionModal from "./EndSessionModal";
 import GamesStats from "./GamesStats";
+import { getGameDisplayName } from "../gamesConfig";
+
 
 interface LiveGamesProps {
   searchQuery?: string;
@@ -14,6 +16,17 @@ interface LiveGamesProps {
 }
 
 const PAGE_SIZE = 8;
+
+const formatDateTime = (dateString?: string) => {
+  if (!dateString) return "N/A";
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "N/A";
+  return date.toLocaleString("en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+};
+
 
 const LiveGames: React.FC<LiveGamesProps> = ({
   searchQuery,
@@ -96,13 +109,19 @@ const LiveGames: React.FC<LiveGamesProps> = ({
                 <div className="flex w-full px-4 justify-between items-center mt-2">
                   <h1 className="text-sm md:text-base text-gray-600">Game</h1>
                   <div className="text-sm md:text-base font-medium">
-                    {game?.game?.name}
+                    {getGameDisplayName(game?.game?.name)}
                   </div>
                 </div>
                 <div className="flex w-full px-4 justify-between items-center mt-2">
                   <h1 className="text-sm md:text-base text-gray-600">Admin</h1>
                   <div className="text-sm md:text-base font-medium">
                     {game.adminName}
+                  </div>
+                </div>
+                <div className="flex w-full px-4 justify-between items-center mt-2">
+                  <h1 className="text-sm md:text-base text-gray-600">Created</h1>
+                  <div className="text-sm md:text-base font-medium">
+                    {formatDateTime(game.createdAt)}
                   </div>
                 </div>
                 <div className="flex w-full px-4 justify-between items-center mt-2">

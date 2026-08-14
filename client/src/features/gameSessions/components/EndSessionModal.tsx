@@ -4,6 +4,8 @@ import { SessionData } from "../types/sessionTypes";
 import { useEndSessionMutation } from "../gameSessionApi";
 import { AlertTriangle, Eye, EyeOff } from "lucide-react";
 import { getRTKErrorMessage } from "../../../utility/getRTKErrorMessage";
+import { getGameDisplayName } from "../gamesConfig";
+
 
 interface EndSessionModalProps {
   isOpen: boolean;
@@ -86,7 +88,7 @@ const EndSessionModal: React.FC<EndSessionModalProps> = ({
               <strong>Session:</strong> {sessionData.sessionName}
             </p>
             <p className="text-sm text-gray-700">
-              <strong>Game:</strong> {sessionData?.game?.name}
+              <strong>Game:</strong> {getGameDisplayName(sessionData?.game?.name)}
             </p>
             <p className="text-sm text-gray-700">
               <strong>Players:</strong> {sessionData.totalPlayers}

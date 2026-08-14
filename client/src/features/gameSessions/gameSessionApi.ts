@@ -1,6 +1,7 @@
 import { api } from "../../app/api";
 import { API_TAGS } from "../../app/apiTags";
 import { CreateGameSessionRequest, SessionData } from "./types/sessionTypes";
+import { games, getGameDisplayName } from "./gamesConfig";
 
 export const gameSesssionApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -54,20 +55,26 @@ export const gameSesssionApi = api.injectEndpoints({
         params: { status },
       }),
       transformResponse: (response: { data: any[] }): SessionData[] =>
-        response.data.map((session) => ({
-          ...session,
-          sessionName: session.name,
-          adminName: session.adminName || "Unknown",
-          totalPlayers: session.totalPlayers || 0,
-          adminPassword: session.adminPin || "",
-          totalTeams: session.totalTeams || 0,
-          adminGameLink: session.adminLink,
-          playerGameLink: session.playerLink,
-          game: {
-            name: session.game?.name || "The Ultimate Team Challenge",
-          },
-        })),
+        response.data.map((session) => {
+          const matchedGame = games.find((g) => g.id === session.game?.gameId);
+          let gameName = matchedGame ? matchedGame.name : session.game?.name;
+          gameName = getGameDisplayName(gameName);
+          return {
+            ...session,
+            sessionName: session.name,
+            adminName: session.adminName || "Unknown",
+            totalPlayers: session.totalPlayers || 0,
+            adminPassword: session.adminPin || "",
+            totalTeams: session.totalTeams || 0,
+            adminGameLink: session.adminLink,
+            playerGameLink: session.playerLink,
+            game: {
+              name: gameName || "The Ultimate Team Challenge",
+            },
+          };
+        }),
       providesTags: [API_TAGS.SESSIONS],
+
     }),
     fetchAllGames: build.query({
       query: () => ({

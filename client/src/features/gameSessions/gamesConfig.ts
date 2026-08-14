@@ -45,3 +45,13 @@ export const games = [
     hasLibrary: true,
   }
 ];
+
+export const getGameDisplayName = (name?: string) => {
+  if (!name) return "";
+  const normalized = name.trim().toLowerCase();
+  if (normalized === "connections" || normalized === "connection") {
+    return "Konnect";
+  }
+  return name;
+};
+
