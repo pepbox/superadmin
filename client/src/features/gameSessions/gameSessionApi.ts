@@ -56,11 +56,7 @@ export const gameSesssionApi = api.injectEndpoints({
       }),
       transformResponse: (response: { data: any[] }): SessionData[] =>
         response.data.map((session) => {
-          const matchedGame = games.find(
-            (g) =>
-              g.id === session.game?.gameId ||
-              (g.id === "scavengerHunt" && session.game?.gameId === "treasureHunt")
-          );
+          const matchedGame = games.find((g) => g.id === session.game?.gameId);
           let gameName = matchedGame ? matchedGame.name : session.game?.name;
           gameName = getGameDisplayName(gameName);
           return {

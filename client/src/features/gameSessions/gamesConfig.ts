@@ -35,7 +35,7 @@ export const games = [
   },
   {
     name: "Scavenger Hunt",
-    id: "scavengerHunt",
+    id: "treasureHunt",
     creationPopup: CreateTresureHunt,
     hasLibrary: true,
   },

@@ -17,19 +17,16 @@ const GamesList: React.FC<GamesListProps> = ({
   );
 
   const handleManageGame = (game: (typeof games)[0]) => {
-    const isScavengerHunt = game.id === "scavengerHunt" || game.id === "treasureHunt";
-    const dbGame = fetchedGames?.find(
-      (g: any) => g.gameId === game.id || (isScavengerHunt && g.gameId === "treasureHunt")
-    );
+    const dbGame = fetchedGames?.find((g: any) => g.gameId === game.id);
 
-    const passcode = import.meta.env.VITE_SUPERADMIN_LIBRARY_PASSCODE || "";
+    const passcode =
+      import.meta.env.VITE_SUPERADMIN_LIBRARY_PASSCODE ||
+      "pepbox-superadmin-secret-library-passcode-2026";
 
     let frontendUrl = dbGame?.frontendUrl;
     if (!frontendUrl) {
       frontendUrl =
-        isScavengerHunt || game.id === "treasureHunt"
-          ? "http://localhost:5172"
-          : game.id === "buzzerBattle"
+        game.id === "treasureHunt" || game.id === "buzzerBattle"
           ? "http://localhost:5172"
           : "http://localhost:5174";
     }
