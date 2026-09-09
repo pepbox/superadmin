@@ -34,9 +34,10 @@ export const games = [
     creationPopup: CreateGreatestShowdown,
   },
   {
-    name: "Treasure Hunt",
-    id: "treasureHunt",
+    name: "Scavenger Hunt",
+    id: "scavengerHunt",
     creationPopup: CreateTresureHunt,
+    hasLibrary: true,
   },
   {
     name: "Buzzer Battle",
@@ -51,6 +52,16 @@ export const getGameDisplayName = (name?: string) => {
   const normalized = name.trim().toLowerCase();
   if (normalized === "connections" || normalized === "connection") {
     return "Konnect";
+  }
+  if (
+    normalized === "treasure hunt" ||
+    normalized === "treasurehunt" ||
+    normalized === "tresure hunt" ||
+    normalized === "tresurehunt" ||
+    normalized === "scavenger hunt" ||
+    normalized === "scavengerhunt"
+  ) {
+    return "Scavenger Hunt";
   }
   return name;
 };

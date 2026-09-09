@@ -56,7 +56,11 @@ export const gameSesssionApi = api.injectEndpoints({
       }),
       transformResponse: (response: { data: any[] }): SessionData[] =>
         response.data.map((session) => {
-          const matchedGame = games.find((g) => g.id === session.game?.gameId);
+          const matchedGame = games.find(
+            (g) =>
+              g.id === session.game?.gameId ||
+              (g.id === "scavengerHunt" && session.game?.gameId === "treasureHunt")
+          );
           let gameName = matchedGame ? matchedGame.name : session.game?.name;
           gameName = getGameDisplayName(gameName);
           return {
@@ -69,6 +73,7 @@ export const gameSesssionApi = api.injectEndpoints({
             adminGameLink: session.adminLink,
             playerGameLink: session.playerLink,
             game: {
+              ...(typeof session.game === "object" ? session.game : {}),
               name: gameName || "The Ultimate Team Challenge",
             },
           };

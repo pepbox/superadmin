@@ -1,11 +1,11 @@
 import { games } from "../gamesConfig";
-
 import { useFetchAllGamesQuery } from "../gameSessionApi";
 
 interface GamesListProps {
   searchQuery?: string;
   handleCreateSession: (gameId: string) => void;
 }
+
 const GamesList: React.FC<GamesListProps> = ({
   handleCreateSession,
   searchQuery,
@@ -15,6 +15,31 @@ const GamesList: React.FC<GamesListProps> = ({
   const filteredGames = games.filter((game) =>
     game.name.toLowerCase().includes(searchQuery?.toLowerCase() || "")
   );
+
+  const handleManageGame = (game: (typeof games)[0]) => {
+    const isScavengerHunt = game.id === "scavengerHunt" || game.id === "treasureHunt";
+    const dbGame = fetchedGames?.find(
+      (g: any) => g.gameId === game.id || (isScavengerHunt && g.gameId === "treasureHunt")
+    );
+
+    const passcode = import.meta.env.VITE_SUPERADMIN_LIBRARY_PASSCODE || "";
+
+    let frontendUrl = dbGame?.frontendUrl;
+    if (!frontendUrl) {
+      frontendUrl =
+        isScavengerHunt || game.id === "treasureHunt"
+          ? "http://localhost:5172"
+          : game.id === "buzzerBattle"
+          ? "http://localhost:5172"
+          : "http://localhost:5174";
+    }
+    frontendUrl = frontendUrl.replace(/\/$/, "");
+
+    window.open(
+      `${frontendUrl}/admin/questions?passcode=${encodeURIComponent(passcode)}`,
+      "_blank"
+    );
+  };
 
   if (isLoading) {
     return <div>Loading games...</div>;
@@ -41,19 +66,8 @@ const GamesList: React.FC<GamesListProps> = ({
               </button>
               {game.hasLibrary && (
                 <button
-                  className="flex-1 h-[34px] text-xs font-semibold cursor-pointer rounded-[12px] bg-black text-white hover:bg-gray-800 transition-colors duration-200"
-                  onClick={() => {
-                    const dbGame = fetchedGames?.find((g: any) => g.gameId === game.id);
-                    let frontendUrl = dbGame?.frontendUrl;
-                    
-                    if (!frontendUrl) {
-                      frontendUrl = game.id === "buzzerBattle" 
-                        ? "http://localhost:5172" 
-                        : "http://localhost:5174";
-                    }
-                    const passcode = import.meta.env.VITE_SUPERADMIN_LIBRARY_PASSCODE || "pepbox-superadmin-secret-library-passcode-2026";
-                    window.open(`${frontendUrl}/admin/questions?passcode=${encodeURIComponent(passcode)}`, "_blank");
-                  }}
+                  className="flex-1 h-[34px] text-xs font-semibold cursor-pointer rounded-[12px] bg-black text-white hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50"
+                  onClick={() => handleManageGame(game)}
                 >
                   Manage Game
                 </button>

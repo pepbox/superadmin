@@ -1,7 +1,10 @@
 export interface SessionData {
   _id?: string;
+  gameSessionId?: string;
   playerGameLink: string;
   adminGameLink: string;
+  adminLink?: string;
+  playerLink?: string;
   sessionName: string;
   adminName: string;
   adminPassword: string;
@@ -9,8 +12,10 @@ export interface SessionData {
   totalTeams: number;
   createdAt?: string;
   game?: {
+    _id?: string;
     name?: string;
-  }
+    gameId?: string;
+  };
 }
 
 export interface CreateGameSessionRequest {
