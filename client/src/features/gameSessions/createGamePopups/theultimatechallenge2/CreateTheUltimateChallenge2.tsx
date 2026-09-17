@@ -94,7 +94,7 @@ const CreateTheUltimateChallenge2: React.FC<GameCreationComponentProps> = ({
           <div className="flex justify-between items-center mb-4 sm:mb-6">
             <div className="text-center w-full">
               <h2 className="text-lg sm:text-2xl font-bold">
-                Ultimate Team Challenge 2
+                Ultimate Team Challenge 2 (new server)
               </h2>
               <h3 className="text-base sm:text-xl font-semibold">
                 Create New Session

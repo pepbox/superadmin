@@ -16,7 +16,7 @@ export const games = [
     hasLibrary: true,
   },
   {
-    name: "Ultimate Team Challenge 2",
+    name: "Ultimate Team Challenge 2 (new server)",
     id: "the-ultimate-challenge-2",
     creationPopup: CreateTheUltimateChallenge2,
     hasLibrary: true,
@@ -32,7 +32,7 @@ export const games = [
     creationPopup: CreateGetSetKnow,
   },
   {
-    name: "GetSetKnow 2",
+    name: "GetSetKnow 2 (new server)",
     id: "getSetKnow2",
     creationPopup: CreateGetSetKnow2,
   },

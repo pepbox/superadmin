@@ -59,7 +59,7 @@ const CreateGetSetKnow2: React.FC<GameCreationComponentProps> = ({
     <div className="w-full max-w-lg mx-auto bg-white rounded-xl p-4 sm:p-8 px-3">
       <div className="flex justify-between items-center mb-6">
         <div className="text-center w-full">
-          <h2 className="text-2xl sm:text-3xl font-bold">GetSetKnow 2</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold">GetSetKnow 2 (new server)</h2>
           <h3 className="text-xl sm:text-2xl font-semibold">
             Create New Session
           </h3>
