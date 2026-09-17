@@ -39,11 +39,13 @@ const LiveGames: React.FC<LiveGamesProps> = ({
   const [sessionData, setSessionData] = useState<SessionData | null>(null);
   const [copyLink, setCopyLink] = useState<number | null>(null);
   const [page, setPage] = useState(1);
+  const sanitizeUrl = (url?: string) =>
+    url ? url.replace(/(https?:\/\/)|(\/)+/g, (_, protocol) => protocol ? protocol : "/") : "";
 
   const handleCopyLink = (link: string, index: number) => {
     setCopyLink(index);
     navigator.clipboard
-      .writeText(link)
+      .writeText(sanitizeUrl(link))
       .then(() => {
         console.log("Link copied to clipboard:", link);
       })

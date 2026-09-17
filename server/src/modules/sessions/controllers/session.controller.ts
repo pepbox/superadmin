@@ -212,10 +212,13 @@ class SessionController {
             500
           );
         }
+        const sanitizeUrl = (url?: string) =>
+          url ? url.replace(/(https?:\/\/)|(\/)+/g, (match, protocol) => protocol ? protocol : "/") : url;
+
         return {
           sessionId: response.data.data.sessionId,
-          adminLink: response.data.data.adminLink,
-          playerLink: response.data.data.playerLink,
+          adminLink: sanitizeUrl(response.data.data.adminLink),
+          playerLink: sanitizeUrl(response.data.data.playerLink),
         };
       }
 

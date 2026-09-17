@@ -1,6 +1,8 @@
 import CreateTeamFormation from "./createGamePopups/teamformation/CreateTeamFormation";
 import CreateTheUltimateChallenge from "./createGamePopups/theultimatechallenge/CreateTheUltimateChallenge";
+import CreateTheUltimateChallenge2 from "./createGamePopups/theultimatechallenge2/CreateTheUltimateChallenge2";
 import CreateGetSetKnow from "./createGamePopups/getsetknow/CreateGetSetKnow";
+import CreateGetSetKnow2 from "./createGamePopups/getsetknow2/CreateGetSetKnow2";
 import CreateGreatestShowdown from "./createGamePopups/greatestShowdown/CreateGreatestShowdown";
 import CreateTresureHunt from "./createGamePopups/tresurehunt/CreateTresureHunt";
 import CreateBuzzerBattle from "./createGamePopups/buzzerbattle/CreateBuzzerBattle";
@@ -14,6 +16,12 @@ export const games = [
     hasLibrary: true,
   },
   {
+    name: "Ultimate Team Challenge 2",
+    id: "the-ultimate-challenge-2",
+    creationPopup: CreateTheUltimateChallenge2,
+    hasLibrary: true,
+  },
+  {
     name: "Team Formation",
     id: "team-formation",
     creationPopup: CreateTeamFormation,
@@ -22,6 +30,11 @@ export const games = [
     name: "GetSetKnow",
     id: "getSetKnow",
     creationPopup: CreateGetSetKnow,
+  },
+  {
+    name: "GetSetKnow 2",
+    id: "getSetKnow2",
+    creationPopup: CreateGetSetKnow2,
   },
   {
     name: "Konnect",

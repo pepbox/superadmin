@@ -36,13 +36,15 @@ const CreateSessionPopup: React.FC<CreateSessionPopupProps> = ({
     try {
       const response = await createSession(sessionData).unwrap();
       const sessionResponse = response.data;
+      const sanitizeUrl = (url?: string) =>
+        url ? url.replace(/(https?:\/\/)|(\/)+/g, (_, protocol) => protocol ? protocol : "/") : "";
 
       const sessionInfo: SessionData = {
         sessionName: sessionResponse.name,
         adminName: sessionResponse.adminName,
         adminPassword: sessionResponse.adminPin,
-        playerGameLink: sessionResponse.playerLink,
-        adminGameLink: sessionResponse.adminLink,
+        playerGameLink: sanitizeUrl(sessionResponse.playerLink),
+        adminGameLink: sanitizeUrl(sessionResponse.adminLink),
         totalPlayers: sessionResponse.totalPlayers || 0,
         totalTeams: sessionResponse.totalTeams || 0,
       };

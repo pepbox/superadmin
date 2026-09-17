@@ -18,8 +18,11 @@ const SessionInfoPopup: React.FC<SessionInfoPopupProps> = ({
 }) => {
   const [copiedField, setCopiedField] = useState("");
 
-  const playerLink = sessionData.playerGameLink;
-  const adminLink = sessionData.adminGameLink;
+  const sanitizeUrl = (url?: string) =>
+    url ? url.replace(/(https?:\/\/)|(\/)+/g, (_, protocol) => protocol ? protocol : "/") : "";
+
+  const playerLink = sanitizeUrl(sessionData.playerGameLink || sessionData.playerLink);
+  const adminLink = sanitizeUrl(sessionData.adminGameLink || sessionData.adminLink);
 
   const copyToClipboard = (text: string, field: string) => {
     navigator.clipboard.writeText(text);
