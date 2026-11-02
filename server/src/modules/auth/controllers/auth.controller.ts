@@ -9,6 +9,7 @@ import {
 import {
   accessTokenOptions,
   refreshTokenOptions,
+  clearCookieOptions,
 } from "../utils/cookieOptions";
 
 class AuthController {
@@ -101,8 +102,8 @@ class AuthController {
 
   logout = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      res.clearCookie("accessToken");
-      res.clearCookie("refreshToken");
+      res.clearCookie("accessToken", clearCookieOptions);
+      res.clearCookie("refreshToken", clearCookieOptions);
       res.status(200).json({
         status: "success",
         message: "Logged out successfully",

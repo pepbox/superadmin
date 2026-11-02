@@ -5,7 +5,10 @@ import { verifyAccessToken } from '../modules/auth/utils/jwtUtils';
 dotenv.config();
 
 export const authenticateUser = (req: Request, res: Response, next: NextFunction): void => {
-  const token = req.cookies.accessToken;
+  const authHeader = req.headers.authorization;
+  const bearerToken = authHeader && authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
+  const token = req.cookies?.accessToken || bearerToken;
+
   if (!token) {
     res.status(401).json({ success: false, message: 'Unauthorized: No token provided' });
     return; 
